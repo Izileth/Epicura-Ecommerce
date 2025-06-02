@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 
 import { useNavigate } from "@tanstack/react-router";
 
+import Container from "@/components/template/Container";
 
 export function ProductPage () {
     const navigate = useNavigate()
@@ -10,6 +11,8 @@ export function ProductPage () {
         navigate({ to: "/profile" })
     }
     return(
-    <Button onClick={handleNavigate}>Navegar!</Button>
+        <Container className="h-screen flex flex-col justify-center items-center">
+            <Button onClick={handleNavigate}>Navegar!</Button>
+        </Container>
     );
 }

@@ -12,13 +12,16 @@ import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import './styles.css'
 import reportWebVitals from './reportWebVitals.ts'
 
-import { HomePage } from './pages/index.tsx'
+import { Page } from './pages/index.tsx'
 import { ContactPage } from './pages/contact.tsx'
 import { OrdersPage } from './pages/orders.tsx'
 import { ProductPage } from './pages/products.tsx'
 import { AboutPage } from './pages/about.tsx'
 import { ProfilePage } from './pages/profile.tsx'
 import App from './App.tsx'
+
+import Footer from './components/template/Footer/index.tsx'
+import Bar from './components/template/Bar/index.tsx'
 
 const rootRoute = createRootRoute({
   component: () => (
@@ -38,7 +41,7 @@ const indexRoute = createRoute({
 const HomeRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/home',
-  component: HomePage,
+  component: Page,
 })
 
 
@@ -92,12 +95,15 @@ declare module '@tanstack/react-router' {
   }
 }
 
+
 const rootElement = document.getElementById('app')
 if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
+      <Bar />
       <RouterProvider router={router} />
+      <Footer />
     </StrictMode>,
   )
 }
