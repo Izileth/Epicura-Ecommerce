@@ -1,28 +1,30 @@
 import { useState } from 'react';
+import React from 'react';
 
 function Footer() {
     const [email, setEmail] = useState('');
     const [isSubscribed, setIsSubscribed] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-
-    const handleNewsletterSubmit = (e) => {
+  
+    const handleNewsletterSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!email) return;
-        
+
         setIsLoading(true);
-        
+
         // Simular envio
         setTimeout(() => {
             setIsSubscribed(true);
             setIsLoading(false);
             setEmail('');
-            
+
             // Reset após 3 segundos
             setTimeout(() => {
                 setIsSubscribed(false);
             }, 3000);
         }, 1500);
     };
+
 
     const currentYear = new Date().getFullYear();
 
@@ -39,7 +41,7 @@ function Footer() {
                     </p>
                     
                     <div className="max-w-md mx-auto">
-                        <div className="flex flex-col sm:flex-row gap-4">
+                        <form  onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-4">
                             <input
                                 type="email"
                                 value={email}
@@ -49,7 +51,7 @@ function Footer() {
                                 disabled={isLoading || isSubscribed}
                             />
                             <button
-                                onClick={handleNewsletterSubmit}
+                                type="submit" 
                                 disabled={isLoading || isSubscribed || !email}
                                 className={`px-8 py-4  font-medium transition-all duration-300 ${
                                     isSubscribed 
@@ -75,7 +77,7 @@ function Footer() {
                                     'Inscrever-se'
                                 )}
                             </button>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
