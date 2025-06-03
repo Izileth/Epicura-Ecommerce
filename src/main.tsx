@@ -22,7 +22,7 @@ import App from './App.tsx'
 
 import Footer from './components/template/Footer/index.tsx'
 import Bar from './components/template/Bar/index.tsx'
-
+import { Banner } from './components/common/Banner/index.tsx'
 const rootRoute = createRootRoute({
   component: () => (
     <>
@@ -101,6 +101,7 @@ if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
+      <Banner />
       <Bar />
       <RouterProvider router={router} />
       <Footer />
