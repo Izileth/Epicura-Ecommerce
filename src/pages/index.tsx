@@ -8,6 +8,8 @@ import TestimonialCarousel from "@/components/common/testmonial";
 import { Testimonials } from "@/data/testmonial";
 import FeaturedBanner from "@/components/common/banner";
 import { FeaturesData } from "@/data/banner";
+import PartnersSelector from "@/components/common/partner";
+import { Partners } from "@/data/partners";
 export function Page () {
     
     const navigate = useNavigate()
@@ -54,6 +56,10 @@ export function Page () {
                 layout="minimal"
                 showMeta={false}
                 className="p-4"
+            />
+            <PartnersSelector
+                partners={Partners}
+                className="bg-gray-50"
             />
         </Container>
     );

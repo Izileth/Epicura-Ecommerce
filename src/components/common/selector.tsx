@@ -149,7 +149,7 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
     return (
         <section className={`w-full ${className}`}>
         {title && (
-            <div className="mb-8 text-center">
+            <div className="mb-8 text-left">
             <h2 className="
                 text-2xl 
                 md:text-3xl 
