@@ -2,10 +2,9 @@
 import axios from 'axios';
 import { useNavigate } from '@tanstack/react-router';
 
-const navigate = useNavigate();
 
 const apiClient = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000',
+    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:4141',
     withCredentials: true, // Permite cookies HTTP-only
     headers: {
         'Content-Type': 'application/json',
@@ -27,9 +26,12 @@ apiClient.interceptors.request.use((config) => {
 
 // Interceptor de resposta
 apiClient.interceptors.response.use(
+    
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
+        
+        const navigate = useNavigate();
         
         if (error.response?.status === 401 && !originalRequest._retry) {
         if (isRefreshing) {

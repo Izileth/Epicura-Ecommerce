@@ -1,4 +1,3 @@
-// src/api/auth.service.ts
 import api from './api';
 import type { SignIn, SignUp } from '@/types/auth';
 import type { AuthResponse } from '@/types/reponse';

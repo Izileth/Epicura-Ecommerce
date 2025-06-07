@@ -4,12 +4,13 @@ import { AuthService } from '@/services/auth';
 import useAuthStore from '@/store/auth';
 import { useNavigate } from '@tanstack/react-router';
 import type { AuthResponse } from '@/types/reponse';
-const navigate = useNavigate();
 
 
 export const useAuth = () => {
     const queryClient = useQueryClient();
     const { setUser, clearUser } = useAuthStore();
+
+    const navigate = useNavigate();
 
     const handleAuthSuccess = (data: AuthResponse) => {
         // Armazena token apenas se não estiver usando HTTP-only

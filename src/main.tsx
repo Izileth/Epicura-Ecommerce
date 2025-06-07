@@ -12,17 +12,43 @@ import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import './styles.css'
 import reportWebVitals from './reportWebVitals.ts'
 
+import useAuthStore from './store/auth.ts'
+
+import { QueryClientProvider } from '@tanstack/react-query'
+import { queryClient } from './lib/queryClient.ts'
+
 import { Page } from './pages/index.tsx'
 import { ContactPage } from './pages/contact.tsx'
 import { OrdersPage } from './pages/orders.tsx'
 import { ProductPage } from './pages/products.tsx'
 import { AboutPage } from './pages/about.tsx'
 import { ProfilePage } from './pages/profile.tsx'
+import { RegisterPage } from './pages/register.tsx'
+import { LoginPage } from './pages/login.tsx'
 import App from './App.tsx'
 
 import Footer from './components/template/Footer/index.tsx'
 import Bar from './components/template/Bar/index.tsx'
 import { Banner } from './components/common/Banner/index.tsx'
+
+function RootComponent() {
+  const { isAuthenticated, user } = useAuthStore();
+  
+  return (
+    <>
+      <Banner />
+      <Bar />
+      <RouterProvider 
+        router={router}
+        context={{
+          auth: { isAuthenticated, user },
+        }}
+      />
+      <Footer />
+    </>
+  );
+}
+
 const rootRoute = createRootRoute({
   component: () => (
     <>
@@ -31,6 +57,7 @@ const rootRoute = createRootRoute({
     </>
   ),
 })
+
 
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -70,6 +97,18 @@ const ProfileRoute = createRoute({
   component: ProfilePage,
 })
 
+const LoginRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/login',
+  component: LoginPage,
+})
+
+const RegisterRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/register',
+  component: RegisterPage,
+})
+
 
 
 const ContactRoute = createRoute({
@@ -78,11 +117,23 @@ const ContactRoute = createRoute({
   component: ContactPage,
 })
 
-const routeTree = rootRoute.addChildren([indexRoute, AboutRoute, ContactRoute, MenuRoute, OrdersRoute, ProfileRoute, HomeRoute])
+const routeTree = rootRoute.addChildren([
+  indexRoute, 
+  AboutRoute, 
+  ContactRoute, 
+  MenuRoute, 
+  OrdersRoute, 
+  ProfileRoute, 
+  HomeRoute, 
+  LoginRoute, 
+  RegisterRoute
+])
 
 const router = createRouter({
   routeTree,
-  context: {},
+  context: {
+    auth: undefined!, 
+  },
   defaultPreload: 'intent',
   scrollRestoration: true,
   defaultStructuralSharing: true,
@@ -99,12 +150,13 @@ declare module '@tanstack/react-router' {
 const rootElement = document.getElementById('app')
 if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
+
+
   root.render(
     <StrictMode>
-      <Banner />
-      <Bar />
-      <RouterProvider router={router} />
-      <Footer />
+      <QueryClientProvider client={queryClient}>
+        <RootComponent/>
+      </QueryClientProvider>
     </StrictMode>,
   )
 }
