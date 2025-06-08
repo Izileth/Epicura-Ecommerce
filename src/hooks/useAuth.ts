@@ -9,6 +9,7 @@ import type { AuthResponse } from '@/types/reponse';
 export const useAuth = () => {
     const queryClient = useQueryClient();
     const { setUser, clearUser } = useAuthStore();
+   const { isAuthenticated, user } = useAuthStore(); // Adicione esta linha
 
     const navigate = useNavigate();
 
@@ -18,14 +19,14 @@ export const useAuth = () => {
         localStorage.setItem('access_token', data.token);
         }
         setUser(data.user);
-        navigate({ to: '/' }); // Redireciona após login // Dashboard
+        navigate({ to: '/profile' }); // Redireciona após login // Dashboard
     };
 
     const handleLogout = () => {
         localStorage.removeItem('access_token');
         clearUser();
         queryClient.clear();
-        navigate({ to: '/' }); // Login
+        navigate({ to: '/login' }); // Login
     };
 
     const signInMutation = useMutation({
@@ -52,5 +53,7 @@ export const useAuth = () => {
         signOut: signOutMutation.mutateAsync,
         isLoading: signInMutation.isPending || signUpMutation.isPending,
         error: signInMutation.error || signUpMutation.error,
+        isAuthenticated,
+        user 
     };
 };

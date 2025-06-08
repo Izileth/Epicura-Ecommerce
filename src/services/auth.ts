@@ -5,11 +5,13 @@ import type { AuthResponse } from '@/types/reponse';
 export const AuthService = {
     async signUp(data: SignUp): Promise<AuthResponse> {
         const response = await api.post('/auth/signup', data);
+        console.log(response.data);
         return response.data;
     },
 
     async signIn(data: SignIn): Promise<AuthResponse> {
         const response = await api.post('/auth/signin', data);
+        console.log(response.data);
         return response.data;
     },
 

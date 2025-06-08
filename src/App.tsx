@@ -1,12 +1,13 @@
 
 import { Page } from "./pages"
-
+import Bar from './components/template/Bar/index.tsx'
+import { Banner } from './components/common/Banner/index.tsx'
 function App() {
   return (
     <div className="text-center">
-      <header className="min-h-screen flex flex-col items-center justify-center bg-zinc-50">
-        <Page/>
-      </header>
+          <Banner />
+          <Bar />
+          <Page/>
     </div>
   )
 }

@@ -29,18 +29,6 @@ const variants: Variants = {
         x: direction < 0 ? 1000 : -1000,
         opacity: 0,
     }),
-    }
-
-    const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: {
-        duration: 0.5,
-        ease: "easeOut",
-        },
-    },
 }
 
 export function MinimalistCarousel({ items, autoPlay = true, interval = 5000, className }: CarouselProps) {

@@ -1,11 +1,8 @@
-// src/api/http-client.ts
 import axios from 'axios';
-import { useNavigate } from '@tanstack/react-router';
-
 
 const apiClient = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:4141',
-    withCredentials: true, // Permite cookies HTTP-only
+    baseURL: 'http://localhost:4141',
+    withCredentials: true,
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -13,9 +10,12 @@ const apiClient = axios.create({
 });
 
 let isRefreshing = false;
-let failedRequestsQueue: any[] = [];
+let failedRequestsQueue: Array<{
+    resolve: (token: string) => void;
+    reject: (error: unknown) => void;
+}> = [];
 
-// Interceptor de requisição
+// Interceptor de requisição (mantido igual)
 apiClient.interceptors.request.use((config) => {
     const token = localStorage.getItem('access_token');
     if (token) {
@@ -24,20 +24,22 @@ apiClient.interceptors.request.use((config) => {
     return config;
 });
 
-// Interceptor de resposta
-apiClient.interceptors.response.use(
-    
+// Interceptor de resposta (sem hooks!)
+    apiClient.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
-        
-        const navigate = useNavigate();
-        
+
+        // Tratamento para erro 401 (token expirado/inválido)
         if (error.response?.status === 401 && !originalRequest._retry) {
         if (isRefreshing) {
             return new Promise((resolve, reject) => {
             failedRequestsQueue.push({ resolve, reject });
-            }).then(() => apiClient(originalRequest))
+            })
+            .then((token) => {
+                originalRequest.headers.Authorization = `Bearer ${token}`;
+                return apiClient(originalRequest);
+            })
             .catch((err) => Promise.reject(err));
         }
 
@@ -45,38 +47,39 @@ apiClient.interceptors.response.use(
         isRefreshing = true;
 
         try {
-            // Tenta renovar o token usando o refresh token (enviado automaticamente via cookie HTTP-only)
-            const response = await axios.post(`${originalRequest.baseURL}/auth/refresh`, {}, {
-            withCredentials: true
-            });
+            // Tenta renovar o token
+            const response = await axios.post(
+            `${originalRequest.baseURL}/auth/refresh`,
+            {},
+            { withCredentials: true }
+            );
 
             const { token } = response.data;
- 
             localStorage.setItem('access_token', token);
             apiClient.defaults.headers.Authorization = `Bearer ${token}`;
-            
+
             // Reprocessa fila de requisições pendentes
-            failedRequestsQueue.forEach(({ resolve }) => resolve());
+            failedRequestsQueue.forEach(({ resolve }) => resolve(token));
             failedRequestsQueue = [];
-            
+
             return apiClient(originalRequest);
         } catch (refreshError) {
-            // Se o refresh falhar, desloga o usuário
+            // Se o refresh falhar, limpa tudo e rejeita
             failedRequestsQueue.forEach(({ reject }) => reject(refreshError));
             failedRequestsQueue = [];
-            
             localStorage.removeItem('access_token');
-            navigate({ to: '/' });
             
-            return Promise.reject(refreshError);
+            // ⚠️ Não navega aqui! Apenas rejeita com um erro específico
+            return Promise.reject(new Error('SESSION_EXPIRED'));
         } finally {
             isRefreshing = false;
         }
         }
- 
+
+        // Outros erros 401 (não relacionados a refresh)
         if (error.response?.status === 401) {
         localStorage.removeItem('access_token');
-        navigate({ to: '/', search: { redirect: window.location.pathname } });
+        return Promise.reject(new Error('UNAUTHORIZED'));
         }
 
         return Promise.reject(error);

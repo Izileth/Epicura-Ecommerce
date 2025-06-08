@@ -31,19 +31,19 @@ import Footer from './components/template/Footer/index.tsx'
 import Bar from './components/template/Bar/index.tsx'
 import { Banner } from './components/common/Banner/index.tsx'
 
+
+
 function RootComponent() {
   const { isAuthenticated, user } = useAuthStore();
   
   return (
-    <>
-      <Banner />
-      <Bar />
+    <> 
       <RouterProvider 
         router={router}
         context={{
           auth: { isAuthenticated, user },
         }}
-      />
+      ></RouterProvider>
       <Footer />
     </>
   );

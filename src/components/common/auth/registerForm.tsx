@@ -24,22 +24,8 @@ export function RegisterForm() {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
-            <label htmlFor="name" className="block mb-1 font-medium">
-                Email
-            </label>
-            <input
-                id="name"
-                {...register('email', { required: 'Email é obrigatório' })}
-                className="w-full p-2 border rounded"
-            />
-            {errors.email && (
-                <p className="text-red-500 text-sm">{errors.email.message}</p>
-            )}
-            </div>
-
-            <div>
             <label htmlFor="email" className="block mb-1 font-medium">
-                Confirmar Email
+                Email
             </label>
             <input
                 id="email"
