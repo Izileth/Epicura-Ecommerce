@@ -3,7 +3,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { UserService } from '@/services/user';
 import useUserStore from '@/store/user';
 import { useAuth } from './useAuth';
-import type { User } from '@/types/user';
+import type { UpdateUser, User } from '@/types/user';
 
 export const useUser = () => {
     const { currentUser, setUser, clearUser, setLoading, setError } = useUserStore();
@@ -30,18 +30,19 @@ export const useUser = () => {
 
     // Mutação para atualizar usuário
     const updateUserMutation = useMutation({
-        mutationFn: UserService.updateUser,
+        mutationFn: (data: UpdateUser) =>  UserService.updateUser(currentUser?.id || '' , data),
         onSuccess: (updatedUser) => {
         setUser(updatedUser as User);
         },
         onError: (error) => {
+            
         setError(error instanceof Error ? error.message : 'Update failed');
         },
     });
 
     // Mutação para deletar usuário
     const deleteUserMutation = useMutation({
-        mutationFn: UserService.deleteUser,
+        mutationFn: () =>  UserService.deleteUser(currentUser?.id || ''), // Passa o ID
         onSuccess: () => {
         clearUser();
         signOut(); // Desloga após deletar

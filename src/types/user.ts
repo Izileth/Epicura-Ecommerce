@@ -10,6 +10,7 @@ export interface User {
 
 }
 export interface UpdateUser{
+    id: string;
     email: string ;
     firstName?: string | null;
     lastName?: string | null;
