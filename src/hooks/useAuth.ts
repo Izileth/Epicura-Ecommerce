@@ -9,17 +9,28 @@ import type { AuthResponse } from '@/types/reponse';
 export const useAuth = () => {
     const queryClient = useQueryClient();
     const { setUser, clearUser } = useAuthStore();
-   const { isAuthenticated, user } = useAuthStore(); // Adicione esta linha
+    const { isAuthenticated, user } = useAuthStore(); // Adicione esta linha
 
     const navigate = useNavigate();
 
-    const handleAuthSuccess = (data: AuthResponse) => {
-        // Armazena token apenas se não estiver usando HTTP-only
-        if (data.token) {
+
+     const handleAuthSuccess = (data: AuthResponse) => {
+        // Armazena o token JWT
         localStorage.setItem('access_token', data.token);
-        }
-        setUser(data.user);
-        navigate({ to: '/profile' }); // Redireciona após login // Dashboard
+        
+        // Atualiza o store com os dados do usuário
+        setUser({
+        id: data.user.id,
+        email: data.user.email,
+        firstName: data.user.firstName,
+        lastName: data.user.lastName,
+        role: data.user.role,
+        isActive: data.user.isActive,
+        createdAt: data.user.createdAt,
+        updatedAt: data.user.updatedAt
+        });
+        
+        navigate({ to: '/profile' });
     };
 
     const handleLogout = () => {

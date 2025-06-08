@@ -6,6 +6,7 @@ import {
   createRootRoute,
   createRoute,
   createRouter,
+  redirect
 } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 
@@ -28,10 +29,9 @@ import { LoginPage } from './pages/login.tsx'
 import App from './App.tsx'
 
 import Footer from './components/template/Footer/index.tsx'
-import Bar from './components/template/Bar/index.tsx'
+
 import { Banner } from './components/common/Banner/index.tsx'
-
-
+import Bar from './components/template/Bar/index.tsx'
 
 function RootComponent() {
   const { isAuthenticated, user } = useAuthStore();
@@ -40,11 +40,10 @@ function RootComponent() {
     <> 
       <RouterProvider 
         router={router}
-        context={{
+          context={{
           auth: { isAuthenticated, user },
         }}
       ></RouterProvider>
-      <Footer />
     </>
   );
 }
@@ -52,7 +51,10 @@ function RootComponent() {
 const rootRoute = createRootRoute({
   component: () => (
     <>
+      <Banner />
+      <Bar />
       <Outlet />
+      <Footer />
       <TanStackRouterDevtools />
     </>
   ),
@@ -91,11 +93,17 @@ const OrdersRoute = createRoute({
 })
 
 
-const ProfileRoute = createRoute({
+
+const privateRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/profile',
   component: ProfilePage,
-})
+  beforeLoad: () => {
+    if (!useAuthStore.getState().isAuthenticated) {
+      throw redirect({ to: '/login' });
+    }
+  }
+});
 
 const LoginRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -123,7 +131,7 @@ const routeTree = rootRoute.addChildren([
   ContactRoute, 
   MenuRoute, 
   OrdersRoute, 
-  ProfileRoute, 
+  privateRoute, 
   HomeRoute, 
   LoginRoute, 
   RegisterRoute

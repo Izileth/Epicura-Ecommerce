@@ -3,14 +3,23 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { User } from '@/types/user';
 
+
 interface AuthState {
-  user: User | null;
+  user: {
+    id: string;
+    email: string;
+    firstName: string | null;
+    lastName: string | null;
+    role: string;
+    isActive: boolean;
+    createdAt?: string;
+    updatedAt?: string;
+  } | null;
   isAuthenticated: boolean;
 }
-
 interface AuthActions {
-  setUser: (user: User) => void;
-  clearUser: () => void;
+    setUser: (user: User) => void;
+    clearUser: () => void;
 }
 
 const useAuthStore = create<AuthState & AuthActions>()(
@@ -18,7 +27,11 @@ const useAuthStore = create<AuthState & AuthActions>()(
         (set) => ({
         user: null,
         isAuthenticated: false,
-        
+        checkAuth: () => {
+            const token = localStorage.getItem('access_token');
+            return !!token;
+        },
+            
         setUser: (user) => set({ 
             user,
             isAuthenticated: !!user 
