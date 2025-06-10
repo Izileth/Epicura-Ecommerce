@@ -93,7 +93,7 @@ export function ProfilePage() {
 
             <div className="container mx-auto px-4 py-8 max-w-4xl">
                 {/* Header Section */}
-                <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
+                <div className="bg-white  shadow-xl overflow-hidden mb-8">
                     <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 h-32 relative">
                         <div className="absolute inset-0 bg-black/20"></div>
                         <div className="absolute -bottom-16 left-8">
@@ -240,7 +240,7 @@ export function ProfilePage() {
 
                 {/* Stats Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-                    <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-indigo-500">
+                    <div className="bg-white  shadow-lg p-6 border-l-4 border-indigo-500">
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-sm font-medium text-slate-600">Status da Conta</p>
@@ -256,7 +256,7 @@ export function ProfilePage() {
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500">
+                    <div className="bg-white  shadow-lg p-6 border-l-4 border-purple-500">
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-sm font-medium text-slate-600">Tipo de Usuário</p>
@@ -270,7 +270,7 @@ export function ProfilePage() {
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500">
+                    <div className="bg-white  shadow-lg p-6 border-l-4 border-blue-500">
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-sm font-medium text-slate-600">Membro desde</p>

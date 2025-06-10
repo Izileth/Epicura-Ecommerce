@@ -1,5 +1,7 @@
 import type { User } from "./user";
 import type { Category } from "./category";
+import { productSchema } from "@/validations/product.schema";
+import {z} from 'zod'
 export interface Product {
     id: string;
     title: string;
@@ -16,3 +18,6 @@ export interface Product {
     createdAt: Date;
     updatedAt: Date;
 }    
+
+export type ProductFormValues = z.infer<typeof productSchema>;
+

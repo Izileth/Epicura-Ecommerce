@@ -70,22 +70,22 @@ function Bar() {
                     {/* Desktop Navigation Links */}
                     <div className="hidden md:flex items-center justify-center gap-8 flex-1">
                         <a href="/home" className="text-black no-underline py-2 transition-all duration-300 hover:text-gray-600">
-                            Home
+                            Início
                         </a>
                         {isAuthenticated && (
                             <a href="/profile" className="text-black no-underline py-2 transition-all duration-300 hover:text-gray-600">
-                                Profile
+                                Perfil
                             </a>
                         )}
                         <a href="/about" className="text-black no-underline py-2 transition-all duration-300 hover:text-gray-600">
-                            Our About
+                            Nossa História
                         </a>
                         <a href="/products" className="text-black no-underline py-2 transition-all duration-300 hover:text-gray-600">
-                            Products
+                            Serviços & Pratos
                         </a>
                         {isAuthenticated && (
                             <a href="/orders" className="text-black no-underline py-2 transition-all duration-300 hover:text-gray-600">
-                                Orders
+                                Encomendas
                             </a>
                         )}
                     </div>
@@ -137,7 +137,14 @@ function Bar() {
                                                 Meus Pedidos
                                             </a>
                                             <a 
-                                                href="/settings" 
+                                                href="/products/new" 
+                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+                                                onClick={closeMenus}
+                                            >
+                                                Criar Pratos
+                                            </a>
+                                            <a 
+                                                href="/products/user" 
                                                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200"
                                                 onClick={closeMenus}
                                             >
@@ -267,31 +274,38 @@ function Bar() {
                 <div className="py-4">
                     <a 
                         href="/home" 
-                        className="block py-4 px-6 text-black no-underline transition-all duration-300 border-l-4 border-transparent hover:bg-gray-100 hover:pl-8"
+                        className="block py-4 px-6 text-3xl text-black no-underline transition-all duration-300 border-l-4 border-transparent hover:bg-gray-100 hover:pl-8"
                         onClick={closeMenus}
                     >
-                        Home
+                        Início
                     </a>
                     
                     {isAuthenticated ? (
                         <>
                             <a 
                                 href="/profile" 
-                                className="block py-4 px-6 text-black no-underline transition-all duration-300 border-l-4 border-transparent hover:bg-gray-100 hover:pl-8"
+                                className="block py-4 px-6 text-3xl text-black no-underline transition-all duration-300 border-l-4 border-transparent hover:bg-gray-100 hover:pl-8"
                                 onClick={closeMenus}
                             >
-                                Profile
+                                Perfil
                             </a>
                             <a 
                                 href="/orders" 
-                                className="block py-4 px-6 text-black no-underline transition-all duration-300 border-l-4 border-transparent hover:bg-gray-100 hover:pl-8"
+                                className="block py-4 px-6 text-3xl text-black no-underline transition-all duration-300 border-l-4 border-transparent hover:bg-gray-100 hover:pl-8"
                                 onClick={closeMenus}
                             >
-                                Orders
+                                Encomendas
                             </a>
                             <a 
                                 href="/settings" 
-                                className="block py-4 px-6 text-black no-underline transition-all duration-300 border-l-4 border-transparent hover:bg-gray-100 hover:pl-8"
+                                className="block py-4 px-6 text-3xl text-black no-underline transition-all duration-300 border-l-4 border-transparent hover:bg-gray-100 hover:pl-8"
+                                onClick={closeMenus}
+                            >
+                                Criar Pratos
+                            </a>
+                            <a 
+                                href="/products/user" 
+                                className="block py-4 px-6 text-3xl text-black no-underline transition-all duration-300 border-l-4 border-transparent hover:bg-gray-100 hover:pl-8"
                                 onClick={closeMenus}
                             >
                                 Configurações
@@ -301,17 +315,17 @@ function Bar() {
                     
                     <a 
                         href="/about" 
-                        className="block py-4 px-6 text-black no-underline transition-all duration-300 border-l-4 border-transparent hover:bg-gray-100 hover:pl-8"
+                        className="block py-4 px-6 text-3xl text-black no-underline transition-all duration-300 border-l-4 border-transparent hover:bg-gray-100 hover:pl-8"
                         onClick={closeMenus}
                     >
-                        Our About
+                        Nossa História
                     </a>
                     <a 
                         href="/products" 
-                        className="block py-4 px-6 text-black no-underline transition-all duration-300 border-l-4 border-transparent hover:bg-gray-100 hover:pl-8"
+                        className="block py-4 px-6 text-2xl text-black no-underline transition-all duration-300 border-l-4 border-transparent hover:bg-gray-100 hover:pl-8"
                         onClick={closeMenus}
                     >
-                        Products
+                        Produtos & Serviços
                     </a>
                 </div>
 

@@ -21,7 +21,13 @@ import { queryClient } from './lib/queryClient.ts'
 import { Page } from './pages/index.tsx'
 import { ContactPage } from './pages/contact.tsx'
 import { OrdersPage } from './pages/orders.tsx'
-import { ProductPage } from './pages/products.tsx'
+
+import { ProductPublicPage } from './pages/product/product.public.list.tsx'
+import { ProductUserPage } from './pages/product/product.user.dt.tsx'
+import { ProductUpdatePage } from './pages/product/product.update.tsx'
+import { ProductCreatePage } from './pages/product/product.create.tsx'
+import { ProductDetailsPage } from './pages/product/product.id.tsx'
+
 import { AboutPage } from './pages/about.tsx'
 import { ProfilePage } from './pages/profile.tsx'
 import { RegisterPage } from './pages/register.tsx'
@@ -80,11 +86,7 @@ const AboutRoute = createRoute({
   component: AboutPage,
 })
 
-const MenuRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/products',
-  component: ProductPage,
-})
+
 
 const OrdersRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -117,24 +119,56 @@ const RegisterRoute = createRoute({
   component: RegisterPage,
 })
 
-
-
 const ContactRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/contact',
   component: ContactPage,
 })
 
+const ProductPublicRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/products',
+  component: ProductPublicPage,
+})
+
+const ProductUserRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/products/user',
+  component: ProductUserPage,
+});
+
+const ProductEditRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/products/edit/$id',
+  component: ProductUpdatePage,
+});
+
+const ProductCreateRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/products/new',
+  component: ProductCreatePage,
+});
+
+export const ProductDetailRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/product/$id',
+  component: ProductDetailsPage,
+})
+
 const routeTree = rootRoute.addChildren([
   indexRoute, 
   AboutRoute, 
   ContactRoute, 
-  MenuRoute, 
+  ProductPublicRoute, 
   OrdersRoute, 
   privateRoute, 
   HomeRoute, 
   LoginRoute, 
-  RegisterRoute
+  RegisterRoute,
+  ProductEditRoute,
+  ProductCreateRoute,
+  ProductUserRoute,
+  ProductDetailRoute
 ])
 
 const router = createRouter({
