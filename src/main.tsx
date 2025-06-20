@@ -145,7 +145,7 @@ const ProductEditRoute = createRoute({
 
 const ProductCreateRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/products/new',
+  path: '/products/create',
   component: ProductCreatePage,
 });
 

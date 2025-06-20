@@ -23,7 +23,7 @@ export function UserProductsList({ userId }: { userId: string }) {
   };
 
   const handleCreate = () => {
-    navigate({ to: '/products/new' });
+    navigate({ to: '/products/create' });
   };
 
   const handleDelete = async (id: string) => {

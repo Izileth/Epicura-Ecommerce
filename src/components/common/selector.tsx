@@ -1,191 +1,139 @@
-import React from 'react';
-import { Link } from '@tanstack/react-router';
+// components/CategorySelector.tsx
+import { useCategories } from '@/hooks/useCategory';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Grid3X3, ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useNavigate } from '@tanstack/react-router';
 
-// Tipagem para uma categoria
-export interface Category {
-    id: string;
-    name: string;
-    description?: string;
-    path: string;
-    imageUrl?: string;
-    iconSvg?: string; // SVG como string para ícones personalizados
+interface Category {
+  id: string;
+  name: string;
+  description?: string;
+  imageUrl?: string;
 }
 
-// Props do componente
-export interface CategorySelectorProps {
-    categories: Category[];
-    title?: string;
-    className?: string;
-    onCategorySelect?: (category: Category) => void;
+interface CategorySelectorProps {
+  title?: string;
+  className?: string;
+  onCategorySelect?: (category: Category) => void;
 }
 
-// Componente de ícone padrão para categorias sem imagem
-const DefaultCategoryIcon: React.FC<{ className?: string }> = ({ className = "w-12 h-12" }) => (
-    <svg 
-        className={className} 
-        viewBox="0 0 24 24" 
-        fill="none" 
-        stroke="currentColor" 
-        strokeWidth="1.5"
-    >
-        <rect x="3" y="3" width="7" height="7" />
-        <rect x="14" y="3" width="7" height="7" />
-        <rect x="14" y="14" width="7" height="7" />
-        <rect x="3" y="14" width="7" height="7" />
-    </svg>
+const DefaultCategoryIcon = ({ className = "w-12 h-12" }: { className?: string }) => (
+  <Grid3X3 className={`${className} stroke-1`} />
 );
 
-// Item individual de categoria
-const CategoryItem: React.FC<{
-    category: Category;
-    onSelect?: (category: Category) => void;
-    }> = ({ category, onSelect }) => {
-    const handleClick = () => {
-        onSelect?.(category);
-    };
+const CategoryItem = ({ 
+  category,
+  onSelect 
+}: {
+  category: Category;
+  onSelect?: (category: Category) => void;
+}) => {
+  const navigate = useNavigate();
 
-    return (
-        <Link
-        to={category.path}
-        className="group block"
-        onClick={handleClick}
-        >
-        <div className="
-            bg-white 
-            border 
-            border-gray-200 
-            hover:border-gray-900 
-            transition-all 
-            duration-300 
-            ease-out
-            hover:shadow-sm
-            p-6
-            h-full
-            flex 
-            flex-col 
-            items-center 
-            text-center
-            cursor-pointer
-        ">
-            {/* Área da imagem/ícone */}
-            <div className="mb-4 text-gray-600 group-hover:text-gray-900 transition-colors duration-300">
-            {category.imageUrl ? (
-                <img
+  const handleClick = () => {
+    onSelect?.(category);
+    // Navegação alternativa se não houver handler
+    if (!onSelect) {
+      navigate({ to: `/categories/${category.id}` });
+    }
+  };
+
+  return (
+    <div 
+      className="group block cursor-pointer"
+      onClick={handleClick}
+    >
+      <div className="bg-card border hover:border-primary transition-all p-6 h-full flex flex-col items-center text-center">
+        {/* Ícone/Imagem */}
+        <div className="mb-4 text-muted-foreground group-hover:text-primary transition-colors">
+          {category.imageUrl ? (
+            <div className="w-16 h-16 mx-auto rounded-md overflow-hidden">
+              <img
                 src={category.imageUrl}
                 alt={category.name}
-                className="w-16 h-16 mx-auto object-cover filter grayscale group-hover:grayscale-0 transition-all duration-300"
-                />
-            ) : category.iconSvg ? (
-                <div 
-                className="w-16 h-16 mx-auto"
-                dangerouslySetInnerHTML={{ __html: category.iconSvg }}
-                />
-            ) : (
-                <DefaultCategoryIcon className="w-16 h-16 mx-auto" />
-            )}
+                className="w-full h-full object-cover"
+              />
             </div>
-
-            {/* Conteúdo textual */}
-            <div className="flex-1 flex flex-col justify-center">
-            <h3 className="
-                text-lg 
-                font-medium 
-                text-gray-900 
-                mb-2 
-                group-hover:text-black 
-                transition-colors 
-                duration-300
-                tracking-tight
-            ">
-                {category.name}
-            </h3>
-            
-            {category.description && (
-                <p className="
-                text-sm 
-                text-gray-500 
-                leading-relaxed
-                group-hover:text-gray-700
-                transition-colors 
-                duration-300
-                ">
-                {category.description}
-                </p>
-            )}
-            </div>
-
-            {/* Indicador de navegação */}
-            <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <svg 
-                className="w-4 h-4 text-gray-400" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-            >
-                <path strokeLinecap="butt" strokeLinejoin="miter" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-            </div>
+          ) : (
+            <DefaultCategoryIcon className="w-16 h-16 mx-auto" />
+          )}
         </div>
-        </Link>
-    );
+
+        {/* Conteúdo */}
+        <div className="flex-1 flex flex-col justify-center mb-2">
+          <h3 className="text-lg font-medium text-foreground group-hover:text-primary transition-colors">
+            {category.name}
+          </h3>
+          {category.description && (
+            <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
+              {category.description}
+            </p>
+          )}
+        </div>
+
+        <ArrowRight size={16} className="text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+      </div>
+    </div>
+  );
 };
 
-// Componente principal
-export const CategorySelector: React.FC<CategorySelectorProps> = ({
-    categories,
-    title,
-    className = "",
-    onCategorySelect
-    }) => {
-    if (!categories || categories.length === 0) {
-        return (
-        <div className={`text-center py-12 ${className}`}>
-            <p className="text-gray-500">Nenhuma categoria disponível</p>
-        </div>
-        );
-    }
+export const CategorySelector = ({
+  title,
+  className = "",
+  onCategorySelect
+}: CategorySelectorProps) => {
+  const { categories, isLoading, error } = useCategories();
 
+  if (isLoading) {
     return (
-        <section className={`w-full ${className}`}>
-        {title && (
-            <div className="mb-8 text-left">
-            <h2 className="
-                text-2xl 
-                md:text-3xl 
-                font-light 
-                text-gray-900 
-                tracking-tight
-                border-b 
-                border-gray-200 
-                pb-4 
-                inline-block
-            ">
-                {title}
-            </h2>
-            </div>
-        )}
-        
-        <div className="
-            grid 
-            grid-cols-1 
-            sm:grid-cols-2 
-            lg:grid-cols-3 
-            xl:grid-cols-4 
-            gap-6
-            auto-rows-fr
-        ">
-            {categories.map((category) => (
-            <CategoryItem
-                key={category.id}
-                category={category}
-                onSelect={onCategorySelect}
-            />
-            ))}
-        </div>
-        </section>
+      <div className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ${className}`}>
+        {[...Array(8)].map((_, i) => (
+          <Skeleton key={i} className="h-48 w-full" />
+        ))}
+      </div>
     );
+  }
+
+  if (error) {
+    return (
+      <div className={`text-center py-8 ${className}`}>
+        <p className="text-destructive mb-4">Erro ao carregar categorias</p>
+        <Button variant="outline" onClick={() => window.location.reload()}>
+          Tentar novamente
+        </Button>
+      </div>
+    );
+  }
+
+  if (!categories || categories.length === 0) {
+    return (
+      <div className={`text-center py-16 ${className}`}>
+        <div className="max-w-md mx-auto">
+          <Grid3X3 size={48} className="mx-auto mb-4 text-muted-foreground" />
+          <p className="text-muted-foreground">Nenhuma categoria disponível</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <section className={`w-full ${className}`}>
+      {title && (
+        <div className="mb-8">
+          <h2 className="text-2xl font-semibold tracking-tight">{title}</h2>
+        </div>
+      )}
+
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {categories.map((category) => (
+          <CategoryItem 
+            key={category.id} 
+            category={category} 
+            onSelect={onCategorySelect} 
+          />
+        ))}
+      </div>
+    </section>
+  );
 };
-
-
-export default CategorySelector;

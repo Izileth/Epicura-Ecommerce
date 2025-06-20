@@ -1,9 +1,12 @@
-// src/routes/products/new.tsx
+
 import { useNavigate } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { ImageUploadPreview } from "./productImagePreview";
+import { CategorySelect } from "./productCategorySelector";
+import { TagsInput } from "./productTagsImpur";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
@@ -25,6 +28,7 @@ export function CreateProductPage() {
     defaultValues: {
             title: "",
             description: "", // Manter como string vazia se quiser que seja sempre preenchido
+            imageUrl: "" ,
             price: 0,
             link: "", // Manter como string vazia se quiser que seja sempre preenchido
             isAvailable: true,
@@ -43,8 +47,10 @@ export function CreateProductPage() {
                 ...values,
                 userId: user.id,
                 tags: values.tags || [], // Garantir que tags não seja undefined
+                imageUrl: values.imageUrl || "",
                 link: values.link || "", // Garantir que link não seja undefined
                 description: values.description || "", // Garantir que description não seja undefined
+                categoryId: values.categoryId || undefined,
             };
             
             await createProduct(user.id, productData);
@@ -110,6 +116,41 @@ export function CreateProductPage() {
 
                 <FormField
                 control={form.control}
+                name="categoryId"
+                render={({ field }) => (
+                    <FormItem className="space-y-2">
+                    <FormLabel>Categoria</FormLabel>
+                    <FormControl>
+                        <CategorySelect
+                            value={field.value || ""}
+                            onChange={field.onChange}
+                        />
+                    </FormControl>
+                    <FormMessage />
+                    </FormItem>
+                )}
+                />
+
+                <FormField
+                control={form.control}
+                name="tags"
+                render={({ field }) => (
+                    <FormItem className="space-y-2">
+                    <FormLabel>Tags</FormLabel>
+                    <FormControl>
+                        <TagsInput
+                        value={field.value || []}
+                        onChange={field.onChange}
+                        suggestions={['popular', 'novidade', 'promoção', 'esgotando']} // Suas sugestões aqui
+                        />
+                    </FormControl>
+                    <FormMessage />
+                    </FormItem>
+                )}
+                />
+
+                <FormField
+                control={form.control}
                 name="link"
                 render={({ field }) => (
                     <FormItem>
@@ -133,6 +174,23 @@ export function CreateProductPage() {
                     <FormControl>
                         <Switch checked={field.value} onCheckedChange={field.onChange} />
                     </FormControl>
+                    </FormItem>
+                )}
+                />
+                <FormField
+                control={form.control}
+                name="imageUrl"
+                render={({ field }) => (
+                    <FormItem className="md:col-span-2">
+                    <FormLabel>Imagem do Produto</FormLabel>
+                    <FormControl>
+                        <ImageUploadPreview
+                        className="h-auto"
+                        value={field.value || ""}
+                        onChange={field.onChange}
+                        />
+                    </FormControl>
+                    <FormMessage />
                     </FormItem>
                 )}
                 />
