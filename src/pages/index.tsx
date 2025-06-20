@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "@tanstack/react-router";
 import Container from "@/components/template/Container";
 import { GlobalBanner } from "@/components/template/Banner";
-import { CategorySelector } from "@/components/common/selector";
+import { CategoryGrid } from "@/components/common/selector";
 
 import { TestimonialCarousel } from "@/components/common/testmonial";
 import { Testimonials } from "@/data/testmonial";
@@ -27,10 +27,9 @@ export function Page () {
                 items={DataCarousel}
                 className="rounded-none  w-full text-left  items-center justify-center"
             />
-            <CategorySelector
+            <CategoryGrid
                 title="Nossas Categorias"
-                onCategorySelect={handleNavigate}
-                className="grid-cols-2 sm:grid-cols-4 gap-4 p-4 "
+                className="grid-cols-2 sm:grid-cols-4 gap-4 p-4 w-full px-6"
             />
             <TestimonialCarousel
                 testimonials={Testimonials}

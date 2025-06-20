@@ -75,9 +75,9 @@ export function UserProductsList({ userId }: { userId: string }) {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-2 md:px-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Seus Produtos</h2>
+        <h2 className="text-2xl font-light">Seus Produtos</h2>
         <div className="space-x-2">
           <Button variant="outline" onClick={refreshUserProducts}>
             Atualizar

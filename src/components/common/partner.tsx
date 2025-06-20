@@ -26,7 +26,7 @@ const PartnersSelector: React.FC<PartnersSectionProps> = ({
         <section className={`py-16 md:py-24 bg-white ${className}`}>
         <div className="max-w-full text-left mx-auto px-4 sm:px-6 lg:px-8">
             {/* Header */}
-            <div className="text-left flex flex-col items-start mb-12 md:mb-16">
+            <div className="text-left flex flex-col items-center justify-center mb-12 md:mb-16">
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-light text-gray-900 mb-4 tracking-wide">
                 {title}
             </h2>

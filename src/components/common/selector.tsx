@@ -1,104 +1,58 @@
-// components/CategorySelector.tsx
+
 import { useCategories } from '@/hooks/useCategory';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Grid3X3, ArrowRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { useNavigate } from '@tanstack/react-router';
+import { Button } from '@/components/ui/button';
 
 interface Category {
   id: string;
   name: string;
-  description?: string;
   imageUrl?: string;
+  productCount?: number;
 }
 
-interface CategorySelectorProps {
+interface CategoryGridProps {
   title?: string;
+  subtitle?: string;
   className?: string;
-  onCategorySelect?: (category: Category) => void;
+  onSelect?: (category: Category) => void;
+  variant?: 'default' | 'compact';
 }
 
-const DefaultCategoryIcon = ({ className = "w-12 h-12" }: { className?: string }) => (
-  <Grid3X3 className={`${className} stroke-1`} />
-);
-
-const CategoryItem = ({ 
-  category,
-  onSelect 
-}: {
-  category: Category;
-  onSelect?: (category: Category) => void;
-}) => {
+export const CategoryGrid = ({
+  title,
+  subtitle,
+  className = '',
+  onSelect,
+  variant = 'default',
+}: CategoryGridProps) => {
+  const { categories, isLoading, error } = useCategories();
   const navigate = useNavigate();
 
-  const handleClick = () => {
-    onSelect?.(category);
-    // Navegação alternativa se não houver handler
-    if (!onSelect) {
-      navigate({ to: `/categories/${category.id}` });
-    }
+  const handleCategoryClick = (category: Category) => {
+    onSelect?.(category) || navigate({ to: `/categories/${category.id}` });
   };
-
-  return (
-    <div 
-      className="group block cursor-pointer"
-      onClick={handleClick}
-    >
-      <div className="bg-card border hover:border-primary transition-all p-6 h-full flex flex-col items-center text-center">
-        {/* Ícone/Imagem */}
-        <div className="mb-4 text-muted-foreground group-hover:text-primary transition-colors">
-          {category.imageUrl ? (
-            <div className="w-16 h-16 mx-auto rounded-md overflow-hidden">
-              <img
-                src={category.imageUrl}
-                alt={category.name}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          ) : (
-            <DefaultCategoryIcon className="w-16 h-16 mx-auto" />
-          )}
-        </div>
-
-        {/* Conteúdo */}
-        <div className="flex-1 flex flex-col justify-center mb-2">
-          <h3 className="text-lg font-medium text-foreground group-hover:text-primary transition-colors">
-            {category.name}
-          </h3>
-          {category.description && (
-            <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
-              {category.description}
-            </p>
-          )}
-        </div>
-
-        <ArrowRight size={16} className="text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-      </div>
-    </div>
-  );
-};
-
-export const CategorySelector = ({
-  title,
-  className = "",
-  onCategorySelect
-}: CategorySelectorProps) => {
-  const { categories, isLoading, error } = useCategories();
 
   if (isLoading) {
     return (
-      <div className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ${className}`}>
-        {[...Array(8)].map((_, i) => (
-          <Skeleton key={i} className="h-48 w-full" />
-        ))}
+      <div className={`space-y-6 ${className}`}>
+        {title && <h2 className="text-2xl font-light">{title}</h2>}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          {[...Array(8)].map((_, i) => (
+            <div key={i} className="space-y-2">
+              <Skeleton className="aspect-square w-full" />
+              <Skeleton className="h-4 w-3/4 mx-auto" />
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className={`text-center py-8 ${className}`}>
-        <p className="text-destructive mb-4">Erro ao carregar categorias</p>
+      <div className={`text-center py-12 ${className}`}>
+        <p className="text-muted-foreground mb-4">Erro ao carregar categorias</p>
         <Button variant="outline" onClick={() => window.location.reload()}>
           Tentar novamente
         </Button>
@@ -106,32 +60,54 @@ export const CategorySelector = ({
     );
   }
 
-  if (!categories || categories.length === 0) {
+  if (!categories?.length) {
     return (
-      <div className={`text-center py-16 ${className}`}>
-        <div className="max-w-md mx-auto">
-          <Grid3X3 size={48} className="mx-auto mb-4 text-muted-foreground" />
-          <p className="text-muted-foreground">Nenhuma categoria disponível</p>
-        </div>
+      <div className={`text-center py-12 ${className}`}>
+        <p className="text-muted-foreground">Nenhuma categoria disponível</p>
       </div>
     );
   }
 
   return (
-    <section className={`w-full ${className}`}>
-      {title && (
-        <div className="mb-8">
-          <h2 className="text-2xl font-semibold tracking-tight">{title}</h2>
-        </div>
-      )}
+    <section className={`space-y-6 ${className}`}>
+      <header className="space-y-1">
+        {title && <h2 className="text-2xl font-light tracking-tight">{title}</h2>}
+        {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
+      </header>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className={`grid grid-cols-2 ${
+        variant === 'compact' ? 'sm:grid-cols-3 md:grid-cols-5' : 'sm:grid-cols-3 md:grid-cols-4'
+      } gap-4`}>
         {categories.map((category) => (
-          <CategoryItem 
-            key={category.id} 
-            category={category} 
-            onSelect={onCategorySelect} 
-          />
+          <article 
+            key={category.id}
+            onClick={() => handleCategoryClick(category)}
+            className="group cursor-pointer space-y-2"
+          >
+            <div className="relative aspect-square overflow-hidden bg-gray-50">
+              {category.imageUrl ? (
+                <img
+                  src={category.imageUrl}
+                  alt={category.name}
+                  className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                  <span className="text-xs text-muted-foreground">Sem imagem</span>
+                </div>
+              )}
+              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity" />
+            </div>
+
+            <div className="text-center space-y-0.5">
+              <h3 className="font-medium text-sm truncate">{category.name}</h3>
+              {variant === 'default' && category.productCount !== undefined && (
+                <p className="text-xs text-muted-foreground">
+                  {category.productCount} {category.productCount === 1 ? 'item' : 'itens'}
+                </p>
+              )}
+            </div>
+          </article>
         ))}
       </div>
     </section>
