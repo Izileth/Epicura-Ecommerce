@@ -341,9 +341,9 @@ export const FeaturedBanner: React.FC<FeaturedBannerProps> = ({
         {/* Header */}
         {title && layout !== "hero" && (
             <div className="flex items-center justify-center text-center mb-12">
-            <div>
+            <div className="flex flex-col items-center justify-center text-center ">
                 <h2 className="text-3xl md:text-4xl font-light text-black tracking-wide mb-4">{title}</h2>
-                <div className="w-16 h-px bg-black"></div>
+                <div className="w-20 h-px bg-black"></div>
             </div>
 
             {autoRotate && layout === "grid" && displayItems.length > 1 && (

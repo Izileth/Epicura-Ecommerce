@@ -31,6 +31,17 @@ export function Page () {
                 title="Nossas Categorias"
                 className="grid-cols-2 sm:grid-cols-4 gap-4 p-4 w-full px-6"
             />
+            <GlobalBanner
+            title="Epicura - Sabores Sofisticados à Sua Mesa"
+            description="Loja online de produtos alimentícios de luxo. Queijos artesanais, azeites premiados, vinhos exclusivos e muito mais direto até você"
+            imageUrl="https://cdn.leonardo.ai/users/c60a0145-a4a8-4ee5-91cf-76495889e8b2/generations/4c1f6a4b-33e2-4b91-8a7b-33b4befc84c5/Leonardo_Kino_XL_Golden_sandy_paste_infused_with_pure_melange_1.jpg"
+            rounded="none"
+            textPosition="left"
+            textColor="light"
+            size="medium"
+            className="mb-10"
+            cta={<Button className="rounded-none font-light bg-zinc-50 text-zinc-900 px-6 hover:bg-zinc-300 " onClick={handleNavigate}>Navegar!</Button>}
+            />
             <TestimonialCarousel
                 testimonials={Testimonials}
                 title="Depoimentos"
@@ -44,17 +55,6 @@ export function Page () {
                 tablet: 1,
                 desktop: 1
                 }}
-            />
-            <GlobalBanner
-            title="Epicura - Sabores Sofisticados à Sua Mesa"
-            description="Loja online de produtos alimentícios de luxo. Queijos artesanais, azeites premiados, vinhos exclusivos e muito mais direto até você"
-            imageUrl="https://cdn.leonardo.ai/users/c60a0145-a4a8-4ee5-91cf-76495889e8b2/generations/a2ea6035-a739-4629-9f7b-48d2ec9cafff/AlbedoBase_XL_Macro_shot_of_luxury_food_ingredients_truffle_oi_3.jpg"
-            rounded="none"
-            textPosition="left"
-            textColor="light"
-            size="medium"
-            className="mb-10"
-            cta={<Button className="rounded-none font-light bg-zinc-50 text-zinc-900 px-6 hover:bg-zinc-300 " onClick={handleNavigate}>Navegar!</Button>}
             />
             <FeaturedBanner
                 items={FeaturesData}

@@ -32,6 +32,9 @@ import { AboutPage } from './pages/about.tsx'
 import { ProfilePage } from './pages/profile.tsx'
 import { RegisterPage } from './pages/register.tsx'
 import { LoginPage } from './pages/login.tsx'
+
+import { ProductCategoryPage } from './pages/category/categories.tsx'
+
 import App from './App.tsx'
 
 import Footer from './components/template/Footer/index.tsx'
@@ -155,6 +158,13 @@ export const ProductDetailRoute = createRoute({
   component: ProductDetailsPage,
 })
 
+
+export const CategoryRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/categories/$id',
+  component: ProductCategoryPage,
+})
+
 const routeTree = rootRoute.addChildren([
   indexRoute, 
   AboutRoute, 
@@ -168,7 +178,8 @@ const routeTree = rootRoute.addChildren([
   ProductEditRoute,
   ProductCreateRoute,
   ProductUserRoute,
-  ProductDetailRoute
+  ProductDetailRoute,
+  CategoryRoute
 ])
 
 const router = createRouter({

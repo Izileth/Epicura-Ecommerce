@@ -70,9 +70,10 @@ export const CategoryGrid = ({
 
   return (
     <section className={`space-y-6 ${className}`}>
-      <header className="space-y-1">
-        {title && <h2 className="text-2xl font-light tracking-tight">{title}</h2>}
+      <header className="space-y-1 flex flex-col justify-center items-center">
+        {title && <h2 className="text-4xl font-light tracking-tight">{title}</h2>}
         {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
+        <div className="w-16 h-px bg-black"></div>
       </header>
 
       <div className={`grid grid-cols-2 ${
