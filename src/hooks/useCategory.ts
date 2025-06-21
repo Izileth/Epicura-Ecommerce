@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { useCategoryStore } from '@/store/category';
 
-export const useCategories = (id?: string) => {
+export const useCategories = (categoryId?: string) => {
     const { 
         categories, 
         currentCategory,
@@ -20,12 +20,12 @@ export const useCategories = (id?: string) => {
             fetchCategories();
         }
     }, [fetchCategories, categories.length]);
-
+      
     useEffect(() => {
-        if (id) {
-            fetchCategoryById(id);
+        if (categoryId) {
+        fetchCategoryById(categoryId);
         }
-    }, [id, fetchCategoryById]);
+    }, [categoryId, fetchCategoryById]);
 
     return {
         categories,

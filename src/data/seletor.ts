@@ -1,6 +1,5 @@
-import type { Category } from "@/components/common/selector";
 
-export const Categories: Category[] = [
+export const Categories = [
     {
         id: 'terra-aroma',
         name: 'Terra & Aroma',

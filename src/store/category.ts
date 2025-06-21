@@ -31,14 +31,20 @@ export const useCategoryStore = create<CategoryState>((set) => ({
         }
     },
 
+
     fetchCategoryById: async (id: string) => {
         set({ isLoading: true, error: null });
         try {
-            const category = await CategoryService.getCategoryById(id);
-            set({ currentCategory: category, isLoading: false });
+        const category = await CategoryService.getCategoryById(id);
+        set({ 
+            currentCategory: category,
+            isLoading: false 
+        });
         } catch (error) {
-            set({ error: 'Failed to fetch category', isLoading: false });
-            throw error;
+        set({ 
+            error: 'Failed to fetch category',
+            isLoading: false 
+        });
         }
     },
 

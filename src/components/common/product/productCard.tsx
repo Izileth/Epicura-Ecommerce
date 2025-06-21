@@ -1,4 +1,4 @@
-// components/product-card.tsx
+
 import { useNavigate } from "@tanstack/react-router";
 
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -48,7 +48,7 @@ export function ProductCard({ product, isOwner = false, onEdit, onDelete }: Prod
             )}
             <div className="flex-1">
                 <p className="text-sm font-light text-black leading-tight">
-                {product.user?.firstName || 'Anônimo'}
+                {product.user?.firstName || 'Anônimo' || product.userId }
                 </p>
                 <div className="flex items-center space-x-1 mt-1">
                     <Calendar size={12} className="text-gray-400" />

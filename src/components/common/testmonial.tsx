@@ -33,7 +33,7 @@ export interface TestimonialCarouselProps {
 }
 
 // Componente de estrelas para rating
-const StarRating: React.FC<{ rating: number; className?: string }> = ({ rating, className = "w-4 h-4" }) => {
+const StarRating: React.FC<{ rating: number; className?: string }> = ({ rating}) => {
     return (
         <div className="flex items-center gap-1">
         {[1, 2, 3, 4, 5].map((star) => (

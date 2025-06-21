@@ -1,4 +1,3 @@
-// src/routes/categories/$categoryId.tsx
 import { useParams, useNavigate } from '@tanstack/react-router';
 import { useCategories } from '@/hooks/useCategory';
 import { ProductCard } from '../product/productCard';
@@ -7,13 +6,15 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 
 export function CategoryProductsPage() {
-    const { id: categoryId } = useParams({ strict: false });
+
+    const { id: categoryId } = useParams({ strict: false })
     const navigate = useNavigate();
     const { 
         currentCategory, 
         isLoading, 
         error 
     } = useCategories(categoryId);
+
 
     if (isLoading) {
         return (
@@ -55,7 +56,7 @@ export function CategoryProductsPage() {
     }
 
     return (
-        <div className="container py-8">
+        <div className="container py-8 px-2 md:px-6">
         <div className="flex items-center justify-between mb-8">
             <div>
             <Button 
@@ -64,7 +65,7 @@ export function CategoryProductsPage() {
                 onClick={() => navigate({ to: '/' })}
                 className="mb-2"
             >
-                <ArrowLeft className="mr-2 h-4 w-4" />
+                <ArrowLeft className=" h-4 w-4" />
                 Todas categorias
             </Button>
             <h1 className="text-2xl font-bold">{currentCategory.name}</h1>
