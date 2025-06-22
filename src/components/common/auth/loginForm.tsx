@@ -61,9 +61,12 @@ export function LoginForm() {
             {isLoading ? 'Entrando...' : 'Entrar'}
             </button>
 
-            <div className="text-center mt-4">
+            <div className=" flex flex-row  justify-between items-center text-center mt-4 gap-2">
             <Link to="/register" className="text-zinc-950 hover:underline">
                 Criar uma conta
+            </Link>
+            <Link to="/" className="text-zinc-950 hover:underline hover:text-zinc-700">
+                Esqueceu a senha?
             </Link>
             </div>
         </form>

@@ -3,7 +3,8 @@ import { create } from 'zustand';
 import { ProductService } from '@/services/product';
 import type { Product } from '@/types/product';
 
-    interface ProductState {
+    
+interface ProductState {
     products: Product[];
     publicProducts: Product[]; // Novo estado para produtos públicos
     currentProduct: Product | null;
@@ -52,6 +53,7 @@ export const useProductStore = create<ProductState>((set) => ({
         set({ error: 'Failed to fetch product', isLoading: false });
         }
     },
+  
 
     createProduct: async (userId: string, product: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>) => {
         set({ isLoading: true, error: null });

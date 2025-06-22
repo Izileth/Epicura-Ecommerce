@@ -19,10 +19,11 @@ export function DetailsProduct() {
         isLoading,
         error
     } = useProducts()
-
+ 
     useEffect(() => {
-        if (id && user?.id) {
-        fetchProductById(user.id, id)
+        if (id) {
+     
+            fetchProductById(user?.id || '', id) 
         }
     }, [id, user?.id])
 
