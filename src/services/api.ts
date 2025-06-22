@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import { PasswordService } from './password';
 const apiClient = axios.create({
     baseURL: 'http://localhost:4141',
     withCredentials: true,
@@ -25,7 +25,7 @@ apiClient.interceptors.request.use((config) => {
 });
 
 // Interceptor de resposta (sem hooks!)
-    apiClient.interceptors.response.use(
+apiClient.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
@@ -47,43 +47,35 @@ apiClient.interceptors.request.use((config) => {
         isRefreshing = true;
 
         try {
-            // Tenta renovar o token
-            const response = await axios.post(
-            `${originalRequest.baseURL}/auth/refresh`,
-            {},
-            { withCredentials: true }
-            );
-
-            const { token } = response.data;
-            localStorage.setItem('access_token', token);
-            apiClient.defaults.headers.Authorization = `Bearer ${token}`;
+            // Usa o PasswordService para renovar o token
+            const { access_token } = await PasswordService.refreshToken();
+            
+            localStorage.setItem('access_token', access_token);
+            apiClient.defaults.headers.Authorization = `Bearer ${access_token}`;
 
             // Reprocessa fila de requisições pendentes
-            failedRequestsQueue.forEach(({ resolve }) => resolve(token));
+            failedRequestsQueue.forEach(({ resolve }) => resolve(access_token));
             failedRequestsQueue = [];
 
             return apiClient(originalRequest);
-        } catch (refreshError) {
-            // Se o refresh falhar, limpa tudo e rejeita
+        } catch (refreshError: any) {
+            // Tratamento de erro específico
             failedRequestsQueue.forEach(({ reject }) => reject(refreshError));
             failedRequestsQueue = [];
             localStorage.removeItem('access_token');
             
-            // ⚠️ Não navega aqui! Apenas rejeita com um erro específico
-            return Promise.reject(new Error('SESSION_EXPIRED'));
+            // Redireciona para login apenas se for um erro de sessão
+            if (refreshError.message === 'Refresh token inválido') {
+            window.location.href = '/login';
+            }
+            
+            return Promise.reject(refreshError);
         } finally {
             isRefreshing = false;
         }
         }
 
-        // Outros erros 401 (não relacionados a refresh)
-        if (error.response?.status === 401) {
-        localStorage.removeItem('access_token');
-        return Promise.reject(new Error('UNAUTHORIZED'));
-        }
-
         return Promise.reject(error);
     }
 );
-
 export default apiClient;

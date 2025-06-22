@@ -65,7 +65,7 @@ export function LoginForm() {
             <Link to="/register" className="text-zinc-950 hover:underline">
                 Criar uma conta
             </Link>
-            <Link to="/" className="text-zinc-950 hover:underline hover:text-zinc-700">
+            <Link to="/forgot-password" className="text-zinc-950 hover:underline hover:text-zinc-700">
                 Esqueceu a senha?
             </Link>
             </div>

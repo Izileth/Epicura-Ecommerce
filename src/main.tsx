@@ -27,13 +27,16 @@ import { ProductUserPage } from './pages/product/product.user.dt.tsx'
 import { ProductUpdatePage } from './pages/product/product.update.tsx'
 import { ProductCreatePage } from './pages/product/product.create.tsx'
 import { ProductDetailsPage } from './pages/product/product.id.tsx'
+import { ProductCategoryPage } from './pages/category/categories.tsx'
 
 import { AboutPage } from './pages/about.tsx'
 import { ProfilePage } from './pages/profile.tsx'
-import { RegisterPage } from './pages/register.tsx'
-import { LoginPage } from './pages/login.tsx'
 
-import { ProductCategoryPage } from './pages/category/categories.tsx'
+import { RegisterPage } from './pages/auth/register.tsx'
+import { LoginPage } from './pages/auth/login.tsx'
+
+import { FogotPasswordPage } from './pages/auth/password/forgot.tsx'
+import { ResetPasswordPage } from './pages/auth/password/reset.tsx'
 
 import App from './App.tsx'
 
@@ -41,6 +44,8 @@ import Footer from './components/template/Footer/index.tsx'
 
 import { Banner } from './components/common/Banner/index.tsx'
 import Bar from './components/template/Bar/index.tsx'
+
+import { TokenRefreshProvider } from './components/common/refresh/refreshTokenProvider.tsx'
 
 function RootComponent() {
   const { isAuthenticated, user } = useAuthStore();
@@ -60,10 +65,13 @@ function RootComponent() {
 const rootRoute = createRootRoute({
   component: () => (
     <>
+
       <Banner />
-      <Bar />
-      <Outlet />
-      <Footer />
+        <TokenRefreshProvider refreshIntervalMinutes={15}>
+          <Bar />
+          <Outlet />
+          <Footer />
+        </TokenRefreshProvider>
       <TanStackRouterDevtools />
     </>
   ),
@@ -122,6 +130,19 @@ const RegisterRoute = createRoute({
   component: RegisterPage,
 })
 
+
+const ForgotPasswordRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/forgot-password',
+  component: FogotPasswordPage,
+})
+
+const ResetPasswordRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/reset-password',
+  component: ResetPasswordPage,
+})
+
 const ContactRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/contact',
@@ -175,6 +196,8 @@ const routeTree = rootRoute.addChildren([
   HomeRoute, 
   LoginRoute, 
   RegisterRoute,
+  ForgotPasswordRoute,
+  ResetPasswordRoute,
   ProductEditRoute,
   ProductCreateRoute,
   ProductUserRoute,

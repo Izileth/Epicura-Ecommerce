@@ -1,4 +1,4 @@
-// src/stores/category.store.ts
+
 import { create } from 'zustand';
 import { CategoryService } from '@/services/category';
 import type { Category, CreateCategory} from '@/types/category';
