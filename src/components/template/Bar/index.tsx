@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
+import { useCart } from '@/hooks/useCart'; // Importar o hook do carrinho
+import { CartSidebar } from '@/components/common/cart/cartBar';
 import { Menu, X, ShoppingBag, User, ChevronDown, LogOut, Settings, Package, Home, Info, Utensils } from "lucide-react"
+
 function Bar() {
-    const { isAuthenticated, user, signOut } = useAuth(); // Adicionado logout
+    const { isAuthenticated, user, signOut } = useAuth();
+    const { totalItems } = useCart(); // Usar dados reais do carrinho
+    
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isCartOpen, setIsCartOpen] = useState(false);
-    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false); // Novo estado para menu do usuário
-    const [cartItems] = useState([
-        { id: 1, name: 'Default Product', price: 0.00, quantity: 1, image: '/api/placeholder/60/60' }
-    ]);
+    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
     
     const getInitials = (email?: string) => {
         if (!email) return '?';
@@ -45,12 +47,9 @@ function Bar() {
         closeMenus();
     };
 
-    const getTotalPrice = () => {
-        return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
-    };
-
-    const getTotalItems = () => {
-        return cartItems.reduce((total, item) => total + item.quantity, 0);
+    // Função específica para fechar apenas o carrinho
+    const closeCart = () => {
+        setIsCartOpen(false);
     };
     
     const currentYear = new Date().getFullYear()
@@ -177,7 +176,7 @@ function Bar() {
                             Minhas Especiarias
                         </a>
                         <a
-                            href="/settings"
+                            href="/cart"
                             className="flex items-center gap-3 px-4 py-2 text-sm font-light text-gray-700 hover:bg-gray-50 transition-colors duration-200"
                             onClick={closeMenus}
                         >
@@ -203,9 +202,9 @@ function Bar() {
                         onClick={toggleCart}
                     >
                         <ShoppingBag size={18} className="text-gray-700" />
-                        {getTotalItems() > 0 && (
+                        {totalItems > 0 && (
                         <span className="absolute -top-2 -right-2 bg-black text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-light">
-                            {getTotalItems()}
+                            {totalItems}
                         </span>
                         )}
                     </button>
@@ -238,9 +237,9 @@ function Bar() {
                     onClick={toggleCart}
                 >
                     <ShoppingBag size={18} className="text-gray-700" />
-                    {getTotalItems() > 0 && (
+                    {totalItems > 0 && (
                     <span className="absolute -top-2 -right-2 bg-black text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-light">
-                        {getTotalItems()}
+                        {totalItems}
                     </span>
                     )}
                 </button>
@@ -257,8 +256,8 @@ function Bar() {
             </nav>
         </header>
 
-        {/* Overlay */}
-        {(isMobileMenuOpen || isCartOpen || isUserMenuOpen) && (
+        {/* Overlay - Mantém o overlay existente apenas para mobile menu e user menu */}
+        {(isMobileMenuOpen || isUserMenuOpen) && (
             <div className="fixed inset-0 bg-black bg-opacity-20 z-40 backdrop-blur-sm" onClick={closeMenus}></div>
         )}
 
@@ -324,7 +323,7 @@ function Bar() {
                     Encomendas
                 </a>
                 <a
-                    href="/settings"
+                    href="/cart"
                     className="flex items-center gap-4 py-4 px-6 text-lg font-light text-black hover:bg-gray-50 transition-colors duration-200 border-l-2 border-transparent hover:border-black"
                     onClick={closeMenus}
                 >
@@ -392,66 +391,11 @@ function Bar() {
             </div>
         </div>
 
-        {/* Cart Sidebar */}
-        <div
-            className={`fixed top-0 right-0 h-full w-80 sm:w-full bg-white z-50 transform transition-transform duration-300 ease-out border-l border-gray-100 ${isCartOpen ? "translate-x-0" : "translate-x-full"}`}
-        >
-            <div className="flex justify-between items-center p-6 border-b border-gray-100">
-            <h3 className="text-lg font-light text-black">Carrinho</h3>
-            <button
-                className="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-black transition-colors duration-200"
-                onClick={toggleCart}
-            >
-                <X size={20} />
-            </button>
-            </div>
-
-            <div className="flex flex-col h-full">
-            {cartItems.length === 0 ? (
-                <div className="flex-1 flex flex-col items-center justify-center text-gray-400 p-8">
-                <ShoppingBag size={48} className="mb-4" />
-                <p className="font-light">Seu carrinho está vazio</p>
-                </div>
-            ) : (
-                <>
-                <div className="flex-1 overflow-y-auto p-4">
-                    {cartItems.map((item) => (
-                    <div key={item.id} className="flex gap-4 py-4 border-b border-gray-100 last:border-b-0">
-                        <div className="flex-shrink-0">
-                        <div className="w-16 h-16 bg-gray-100 border border-gray-200"></div>
-                        </div>
-                        <div className="flex-1">
-                        <h4 className="text-sm font-light text-black mb-1">{item.name}</h4>
-                        <p className="text-sm font-light text-gray-600 mb-2">R$ {item.price.toFixed(2)}</p>
-                        <div className="flex items-center gap-3">
-                            <button className="w-8 h-8 border border-gray-200 bg-white flex items-center justify-center hover:bg-gray-50 transition-colors duration-200 text-gray-600">
-                            -
-                            </button>
-                            <span className="text-sm font-light">{item.quantity}</span>
-                            <button className="w-8 h-8 border border-gray-200 bg-white flex items-center justify-center hover:bg-gray-50 transition-colors duration-200 text-gray-600">
-                            +
-                            </button>
-                        </div>
-                        </div>
-                    </div>
-                    ))}
-                </div>
-
-                <div className="p-6 border-t border-gray-100">
-                    <div className="mb-4">
-                    <div className="flex justify-between items-center">
-                        <span className="font-light text-gray-600">Total:</span>
-                        <span className="text-lg font-light text-black">R$ {getTotalPrice().toFixed(2)}</span>
-                    </div>
-                    </div>
-                    <button className="w-full py-3 bg-black text-white border border-black font-light hover:bg-gray-800 transition-colors duration-200">
-                    Finalizar Compra
-                    </button>
-                </div>
-                </>
-            )}
-            </div>
-        </div>
+        {/* Novo Componente CartSidebar */}
+        <CartSidebar 
+            isOpen={isCartOpen} 
+            onClose={closeCart} 
+        />
         </>
     )
 }

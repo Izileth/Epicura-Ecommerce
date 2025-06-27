@@ -38,6 +38,9 @@ import { LoginPage } from './pages/auth/login.tsx'
 import { FogotPasswordPage } from './pages/auth/password/forgot.tsx'
 import { ResetPasswordPage } from './pages/auth/password/reset.tsx'
 
+
+import { CartListPage } from './pages/cart/cart.list.tsx'
+
 import App from './App.tsx'
 
 import Footer from './components/template/Footer/index.tsx'
@@ -186,6 +189,13 @@ export const CategoryRoute = createRoute({
   component: ProductCategoryPage,
 })
 
+export const CartRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/cart',
+  component: CartListPage,
+})
+
+
 const routeTree = rootRoute.addChildren([
   indexRoute, 
   AboutRoute, 
@@ -202,7 +212,8 @@ const routeTree = rootRoute.addChildren([
   ProductCreateRoute,
   ProductUserRoute,
   ProductDetailRoute,
-  CategoryRoute
+  CategoryRoute,
+  CartRoute
 ])
 
 const router = createRouter({

@@ -5,6 +5,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import type { Product } from "@/types/product";
 import { Calendar, Edit3, Trash2, Tag } from "lucide-react"
 
+import { AddToCartButton } from "../cart/cartButton";
 interface ProductCardProps {
     product: Product;
     isOwner?: boolean;
@@ -97,6 +98,12 @@ export function ProductCard({ product, isOwner = false, onEdit, onDelete }: Prod
                 ))}
                 </div>
             )}
+            </div>
+            {/* Footer - User Actions */}
+            <div className="px-6 pb-6 border-t border-gray-100 pt-4">
+                <div className="flex justify-end space-x-3">
+                    <AddToCartButton productId={product.id} />
+                </div>
             </div>
 
             {/* Footer - Owner Actions */}
