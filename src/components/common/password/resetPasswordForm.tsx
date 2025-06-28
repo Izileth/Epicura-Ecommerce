@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import type { ResetPassword } from '@/types/password';
 
 interface ResetPasswordFormData {
+    email: string;
     token?: string;
     code?: string;
     newPassword: string;
@@ -56,7 +57,8 @@ export function ResetPasswordForm() {
 
     const onSubmit = async (data: ResetPasswordFormData) => {
         const payload: ResetPassword = {
-        newPassword: data.newPassword
+             email: data.email ?? '',
+            newPassword: data.newPassword
         };
 
         if (data.token) payload.token = data.token;
