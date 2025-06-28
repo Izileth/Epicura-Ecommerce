@@ -5,6 +5,7 @@ export const UserService = {
     async getMe(): Promise<User> {
         const response = await api.get('/user/me');
         console.log("userService - Resposta do servidor:", response.data)
+        
         return response.data;
     },
 

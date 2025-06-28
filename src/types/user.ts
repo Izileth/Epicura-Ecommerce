@@ -7,6 +7,7 @@ export interface User {
     isActive: boolean;
     createdAt?: string;
     updatedAt?: string;
+    reset_code?: string; // Adicione esta linha
 
 }
 export interface UpdateUser{
@@ -14,4 +15,7 @@ export interface UpdateUser{
     email: string ;
     firstName?: string | null;
     lastName?: string | null;
+    role?: string;
+    isActive?: boolean;
+    reset_code?: string; // Adicione esta linha
 }

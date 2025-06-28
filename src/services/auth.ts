@@ -15,9 +15,13 @@ export const AuthService = {
 
     async signIn(data: SignIn): Promise<AuthResponse> {
         const response = await api.post('/auth/signin', data);
-        console.log(response.data);
+        console.log( "Dados Gerais Com os Tokens Inclusos:",response.data);
+        console.log( "Dados do usuario:", response.data.data);
+        console.log( "Dados do Token de Refresh:", response.data.refresh_token);
+        console.log( "Dados do Code de Reset:", response.data.data.reset_code);
         return {
             token: response.data.access_token, // Mapeia access_token para token
+            refreshToken: response.data.refresh_token,
             user: response.data.data // Extrai os dados do usuário
         }
     },

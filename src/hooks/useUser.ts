@@ -1,4 +1,3 @@
-// src/hooks/useUser.ts
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { UserService } from '@/services/user';
 import useUserStore from '@/store/user';

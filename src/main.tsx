@@ -36,8 +36,8 @@ import { RegisterPage } from './pages/auth/register.tsx'
 import { LoginPage } from './pages/auth/login.tsx'
 
 import { FogotPasswordPage } from './pages/auth/password/forgot.tsx'
+import { SettingsPasswordPage } from './pages/auth/password/edit.tsx'
 import { ResetPasswordPage } from './pages/auth/password/reset.tsx'
-
 
 import { CartListPage } from './pages/cart/cart.list.tsx'
 
@@ -140,6 +140,13 @@ const ForgotPasswordRoute = createRoute({
   component: FogotPasswordPage,
 })
 
+
+const SettingsPasswordRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/settings',
+  component: SettingsPasswordPage,
+})
+
 const ResetPasswordRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/reset-password',
@@ -207,6 +214,7 @@ const routeTree = rootRoute.addChildren([
   LoginRoute, 
   RegisterRoute,
   ForgotPasswordRoute,
+  SettingsPasswordRoute,
   ResetPasswordRoute,
   ProductEditRoute,
   ProductCreateRoute,

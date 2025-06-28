@@ -2,6 +2,7 @@
 export interface ResetPassword {
     token?: string;
     code?: string;
+    email: string;
     newPassword: string;
 }
 

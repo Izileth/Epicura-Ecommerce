@@ -1,6 +1,7 @@
 
 export interface AuthResponse {
     token: string;
+    refreshToken?: string;
     user: {
         id: string;
         email: string;
@@ -10,5 +11,7 @@ export interface AuthResponse {
         lastName: string | null;
         role: string;
         isActive: boolean;
+        reset_code?: string;
+
     };
 }

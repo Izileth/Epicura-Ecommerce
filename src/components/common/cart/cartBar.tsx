@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight, Loader2} from 'lucide-react';
 import { useCart, useCartActions, useCartLoading } from '@/hooks/useCart';
 import type { CartItem } from '@/types/cart';
@@ -123,7 +124,7 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
 // Enhanced Cart Sidebar Component
 export const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
     const { items, total, totalItems, isEmpty, isLoading, error } = useCart()
-    const { clearCart } = useCartActions()
+    const { clearCart, initializeCart } = useCartActions()
     const { isClearing, isAnyLoading } = useCartLoading()
 
     const handleClearCart = () => {
@@ -131,6 +132,13 @@ export const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => 
         clearCart()
         }
     }
+    
+    useEffect(() => {
+        if (isOpen) {
+            initializeCart()
+        }
+    }, [isOpen, initializeCart])
+
 
     const handleCheckout = () => {
         console.log("Iniciando checkout...")

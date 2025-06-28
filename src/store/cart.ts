@@ -13,6 +13,7 @@ interface CartState {
     // Estado do carrinho
     cart: CartResponse | null;
     sessionId: string | null;
+    userId: string | null;
     
     // Estados de loading
     isLoading: boolean;
@@ -48,6 +49,7 @@ interface CartState {
     // Session management
     setSessionId: (sessionId: string) => void;
     generateSessionId: () => string;
+    setUserId: (userId: string | null) => void;
     
     // Error handling
     setError: (error: string | null) => void;
@@ -75,6 +77,7 @@ export const useCartStore = create<CartState>()(
                 // Estado inicial
                 cart: null,
                 sessionId: null,
+                userId: null,
                 isLoading: false,
                 isAdding: false,
                 isUpdating: false,
@@ -85,32 +88,63 @@ export const useCartStore = create<CartState>()(
                 totalItems: 0,
                 isEmpty: true,
 
-                // Inicializar carrinho
+                // CORREÇÃO PRINCIPAL: Melhor gestão de mudança de userId
+                setUserId: (newUserId: string | null) => {
+                    const currentUserId = get().userId;
+                    
+                    // Se o userId mudou, limpa completamente o estado do carrinho
+                    if (newUserId !== currentUserId) {
+                        console.log('🔄 Mudança de usuário detectada:', { 
+                            anterior: currentUserId, 
+                            novo: newUserId 
+                        });
+                        
+                        set({ 
+                            userId: newUserId,
+                            cart: null,
+                            sessionId: null, // Também limpa a sessionId
+                            totalItems: 0,
+                            isEmpty: true,
+                            error: null
+                        });
+                    } else {
+                        set({ userId: newUserId });
+                    }
+                },
+
+                // Inicializar carrinho com verificação de usuário
                 initializeCart: async (sessionId?: string) => {
                     set({ isLoading: true, error: null });
                     
                     try {
-                        const currentSessionId = sessionId || get().sessionId || generateSessionId();
-                        
-                        // Verificar se já tem carrinho persistido
+                        const currentUserId = get().userId;
                         const existingCart = get().cart;
-                        if (existingCart && existingCart.sessionId === currentSessionId) {
+                        
+                        // VERIFICAÇÃO ADICIONAL: Se há carrinho mas o userId não bate, limpa tudo
+                        if (existingCart && existingCart.userId && existingCart.userId !== currentUserId) {
+                            console.log('⚠️ Carrinho de usuário diferente detectado, limpando...');
                             set({ 
-                                isLoading: false,
-                                sessionId: currentSessionId
+                                cart: null,
+                                sessionId: null,
+                                totalItems: 0,
+                                isEmpty: true
                             });
-                            return;
                         }
                         
+                        const currentSessionId = sessionId || get().sessionId || generateSessionId();
                         const cart = await CartService.getOrCreateCart(currentSessionId);
                         
                         set({
-                            cart,
+                            cart: {
+                                ...cart,
+                                userId: currentUserId ?? ''
+                            },
                             sessionId: currentSessionId,
                             totalItems: calculateTotalItems(cart),
                             isEmpty: !cart.items || cart.items.length === 0,
                             isLoading: false
                         });
+                        
                     } catch (error) {
                         const errorMessage = error instanceof Error ? error.message : 'Erro ao carregar carrinho';
                         set({ error: errorMessage, isLoading: false });
@@ -293,6 +327,7 @@ export const useCartStore = create<CartState>()(
                     set({
                         cart: null,
                         sessionId: null,
+                        userId: null, // Também reseta o userId
                         isLoading: false,
                         isAdding: false,
                         isUpdating: false,
@@ -307,20 +342,39 @@ export const useCartStore = create<CartState>()(
             }),
             {
                 name: 'cart-storage',
-                // CORREÇÃO PRINCIPAL: Persistir o estado completo do carrinho
+                // CORREÇÃO CRÍTICA: Persistir também o userId
                 partialize: (state) => ({
                     cart: state.cart,
                     sessionId: state.sessionId,
+                    userId: state.userId, // ← Essa é a linha mais importante!
                     totalItems: state.totalItems,
                     isEmpty: state.isEmpty
                 }),
-                // Versão para migrations futuras
+                
+                migrate: (persistedState: any, version: number) => {
+                    if (version === 0) {
+                        return {
+                            ...persistedState,
+                            userId: null
+                        };
+                    }
+                    return persistedState;
+                },
+                
                 version: 1,
-                // Hidratar os computed values após recarregar
+                
+                // MELHORIA: Verificação adicional na hidratação
                 onRehydrateStorage: () => (state) => {
                     if (state?.cart) {
                         state.totalItems = calculateTotalItems(state.cart);
                         state.isEmpty = !state.cart.items || state.cart.items.length === 0;
+                        
+                        // Log para debug
+                        console.log('🔄 Carrinho hidratado:', {
+                            userId: state.userId,
+                            totalItems: state.totalItems,
+                            hasItems: !state.isEmpty
+                        });
                     }
                 }
             }
