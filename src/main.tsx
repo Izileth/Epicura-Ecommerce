@@ -18,7 +18,6 @@ import useAuthStore from './store/auth.ts'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from './lib/queryClient.ts'
 
-import { Page } from './pages/index.tsx'
 import { ContactPage } from './pages/contact.tsx'
 import { OrdersPage } from './pages/orders.tsx'
 
@@ -85,12 +84,6 @@ const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
   component: App,
-})
-
-const HomeRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/home',
-  component: Page,
 })
 
 
@@ -209,8 +202,7 @@ const routeTree = rootRoute.addChildren([
   ContactRoute, 
   ProductPublicRoute, 
   OrdersRoute, 
-  privateRoute, 
-  HomeRoute, 
+  privateRoute,  
   LoginRoute, 
   RegisterRoute,
   ForgotPasswordRoute,
@@ -224,6 +216,7 @@ const routeTree = rootRoute.addChildren([
   CartRoute
 ])
 
+
 const router = createRouter({
   routeTree,
   context: {
@@ -233,6 +226,10 @@ const router = createRouter({
   scrollRestoration: true,
   defaultStructuralSharing: true,
   defaultPreloadStaleTime: 0,
+  // Adicione estas configurações para melhor handling de rotas
+  notFoundMode: 'root', // Renderiza o componente de root quando rota não encontrada
+  // ou você pode criar um componente de 404 customizado:
+  // defaultNotFoundComponent: () => <div>Página não encontrada</div>
 })
 
 declare module '@tanstack/react-router' {
