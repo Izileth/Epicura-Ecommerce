@@ -1,5 +1,3 @@
-// src/types/cart.ts
-
 // Interface para item do carrinho
 export interface CartItem {
     id: string;
@@ -9,7 +7,7 @@ export interface CartItem {
     notes?: string;
     createdAt: Date;
     updatedAt: Date;
-    // Adicione outras propriedades que vêm do Prisma se necessário
+   
     product?: {
         id: string;
         price: number;

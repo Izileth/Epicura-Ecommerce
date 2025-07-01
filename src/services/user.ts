@@ -1,4 +1,3 @@
-// src/api/user.service.ts
 import api from './api';
 import type { User, UpdateUser } from '@/types/user';
 export const UserService = {

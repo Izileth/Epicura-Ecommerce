@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { PasswordService } from './password';
 const apiClient = axios.create({
-    baseURL: 'http://localhost:4141',
+    baseURL: 'https://epicura-api.onrender.com',
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json',

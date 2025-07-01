@@ -1,4 +1,3 @@
-// src/api/product.service.ts
 import api from './api';
 import type { Product } from '@/types/product';
 
