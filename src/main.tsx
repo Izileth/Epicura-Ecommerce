@@ -18,8 +18,10 @@ import useAuthStore from './store/auth.ts'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from './lib/queryClient.ts'
 
-import { ContactPage } from './pages/contact.tsx'
-import { OrdersPage } from './pages/orders.tsx'
+import { RebootPage } from './pages/reboot.tsx'
+
+import ContactPage from './pages/contact.tsx'
+import OrdersPage from './pages/orders.tsx'
 
 import { ProductPublicPage } from './pages/product/product.public.list.tsx'
 import { ProductUserPage } from './pages/product/product.user.dt.tsx'
@@ -86,6 +88,12 @@ const indexRoute = createRoute({
   component: App,
 })
 
+
+const RebootRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/home',
+  component: RebootPage,
+})
 
 const AboutRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -198,6 +206,7 @@ export const CartRoute = createRoute({
 
 const routeTree = rootRoute.addChildren([
   indexRoute, 
+  RebootRoute,
   AboutRoute, 
   ContactRoute, 
   ProductPublicRoute, 
