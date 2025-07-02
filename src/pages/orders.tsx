@@ -2,9 +2,17 @@ import { MotionDiv } from "@/components/template/Motion/container"
 import { Button } from "@/components/ui/button"
 import { Construction, Phone, ArrowLeft, Clock, ChefHat } from "lucide-react"
 
+import { useNavigate } from "@tanstack/react-router"
 export default function OrdersPage() {
     const currentYear = new Date().getFullYear()
-
+    const navigate = useNavigate()
+    function handleRedirect() {
+        // This function can be used to handle any additional logic before redirecting
+        navigate({ to: "/home" })
+    }
+    function handleSendReservation() {
+        navigate({ to: "/register" })
+    }
     return (
         <div className="min-h-screen bg-white flex flex-col">
         {/* Main Content */}
@@ -72,13 +80,18 @@ export default function OrdersPage() {
                 transition={{ duration: 0.8, delay: 0.5 }}
                 className="flex flex-col sm:flex-row justify-center gap-6 mb-20"
                 >
-                <Button className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-4 text-sm tracking-wider font-light transition-all duration-300">
+                <Button 
+                className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-4 text-sm tracking-wider font-light transition-all duration-300"
+                onClick={handleSendReservation}
+                variant="outline"
+                >
                     <Phone className="mr-3 h-4 w-4" />
                     FAZER RESERVA
                 </Button>
                 <Button
                     variant="outline"
                     className="border border-gray-300 text-gray-900 hover:bg-gray-50 px-8 py-4 text-sm tracking-wider font-light transition-all duration-300 bg-transparent"
+                    onClick={handleRedirect}
                 >
                     <ArrowLeft className="mr-3 h-4 w-4" />
                     VOLTAR À PÁGINA INICIAL

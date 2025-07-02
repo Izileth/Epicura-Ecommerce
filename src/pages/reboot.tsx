@@ -2,8 +2,24 @@ import { MotionDiv } from "@/components/template/Motion/container"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, ChefHat, Home, Utensils } from "lucide-react"
 
+import { useNavigate } from "@tanstack/react-router"
 export  function RebootPage() {
     const currentYear = new Date().getFullYear()
+
+    const Navigate = useNavigate()
+
+    function handleRedirect() {
+        Navigate({ to: "/products" })
+    }
+
+    function handleSendStory () {
+        Navigate({ to: "/about" })
+    }
+
+    function handleSendReservation() {
+        Navigate({ to: "/register" })
+
+    }
 
     return (
         <div className="min-h-screen bg-white">
@@ -41,6 +57,7 @@ export  function RebootPage() {
                 <Button
                 variant="outline"
                 className="bg-transparent text-white border border-white/30 hover:bg-white hover:text-black transition-all duration-300 px-8 py-3 text-sm tracking-wider font-light"
+                onClick={handleRedirect}
                 >
                 EXPLORE NOSSO MENU
                 <ArrowRight className="ml-3 h-4 w-4" />
@@ -82,6 +99,7 @@ export  function RebootPage() {
                     <Button
                         variant="ghost"
                         className="text-gray-900 border border-gray-300 hover:bg-gray-50 transition-all duration-300 px-8 py-3 text-sm tracking-wider font-light"
+                        onClick={handleSendStory}
                     >
                         CONHEÇA NOSSA HISTÓRIA
                     </Button>
@@ -205,7 +223,10 @@ export  function RebootPage() {
                 cuidadosamente preparada para proporcionar momentos inesquecíveis.
                 </p>
 
-                <Button className="bg-white text-black hover:bg-gray-100 transition-all duration-300 px-10 py-4 text-sm tracking-wider font-light">
+                <Button 
+                onClick={handleSendReservation}
+                className="bg-white text-black hover:bg-gray-100 transition-all duration-300 px-10 py-4 text-sm tracking-wider font-light"
+                >
                 RESERVAR MESA
                 </Button>
             </MotionDiv>
