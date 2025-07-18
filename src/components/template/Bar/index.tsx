@@ -167,7 +167,7 @@ function Bar() {
                             <Package size={16} />
                             Adicionar Especiaria
                         </a>
-                          <a
+                        <a
                             href="/products/user"
                             className="flex items-center gap-3 px-4 py-2 text-sm font-light text-gray-700 hover:bg-gray-50 transition-colors duration-200"
                             onClick={closeMenus}
@@ -181,7 +181,7 @@ function Bar() {
                             onClick={closeMenus}
                         >
                             <Settings size={16} />
-                            Configurações
+                            Configurações do Carrinho
                         </a>
                         <div className="border-t border-gray-100 my-1"></div>
                         <button
@@ -323,12 +323,28 @@ function Bar() {
                     Encomendas
                 </a>
                 <a
+                    href="/products/create"
+                    className="flex items-center gap-4 py-4 px-6 text-lg font-light text-black hover:bg-gray-50 transition-colors duration-200 border-l-2 border-transparent hover:border-black"
+                    onClick={closeMenus}
+                >
+                    <Package size={16} />
+                    Adiconar Esperiaria
+                </a>
+                <a
+                    href="/products/user"
+                    className="flex items-center gap-4 py-4 px-6 text-lg font-light text-black hover:bg-gray-50 transition-colors duration-200 border-l-2 border-transparent hover:border-black"
+                    onClick={closeMenus}
+                >
+                    <Package size={16} />
+                    Minhas Especiarias
+                </a>
+                <a
                     href="/cart"
                     className="flex items-center gap-4 py-4 px-6 text-lg font-light text-black hover:bg-gray-50 transition-colors duration-200 border-l-2 border-transparent hover:border-black"
                     onClick={closeMenus}
                 >
                     <Settings size={20} />
-                    Configurações
+                    Configurações do Carrinho
                 </a>
                 </>
             ) : null}
