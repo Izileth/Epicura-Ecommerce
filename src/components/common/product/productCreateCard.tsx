@@ -62,148 +62,148 @@ export function CreateProductPage() {
 
     return (
         <div className="container py-8 max-w-4xl">
-        <div className="flex items-center justify-between mb-8">
-            <h1 className="text-2xl font-bold">Adicionar Novo Produto</h1>
-            <Button variant="ghost" onClick={() => navigate({ to: "/products/user" })}>
-            Cancelar
-            </Button>
-        </div>
-
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <FormField
-                control={form.control}
-                name="title"
-                render={({ field }) => (
-                    <FormItem className="md:col-span-2">
-                    <FormLabel>Título</FormLabel>
-                    <FormControl>
-                        <Input placeholder="Nome do produto" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                    </FormItem>
-                )}
-                />
-
-                <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                    <FormItem className="md:col-span-2">
-                    <FormLabel>Descrição</FormLabel>
-                    <FormControl>
-                        <Textarea placeholder="Descreva seu produto" {...field} rows={5} />
-                    </FormControl>
-                    <FormMessage />
-                    </FormItem>
-                )}
-                />
-
-                <FormField
-                control={form.control}
-                name="price"
-                render={({ field }) => (
-                    <FormItem>
-                    <FormLabel>Preço</FormLabel>
-                    <FormControl>
-                        <Input type="number" placeholder="0.00" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                    </FormItem>
-                )}
-                />
-
-                <FormField
-                control={form.control}
-                name="categoryId"
-                render={({ field }) => (
-                    <FormItem className="space-y-2">
-                    <FormLabel>Categoria</FormLabel>
-                    <FormControl>
-                        <CategorySelect
-                            value={field.value || ""}
-                            onChange={field.onChange}
-                        />
-                    </FormControl>
-                    <FormMessage />
-                    </FormItem>
-                )}
-                />
-
-                <FormField
-                control={form.control}
-                name="tags"
-                render={({ field }) => (
-                    <FormItem className="space-y-2">
-                    <FormLabel>Tags</FormLabel>
-                    <FormControl>
-                        <TagsInput
-                        value={field.value || []}
-                        onChange={field.onChange}
-                        suggestions={['popular', 'novidade', 'promoção', 'esgotando']} // Suas sugestões aqui
-                        />
-                    </FormControl>
-                    <FormMessage />
-                    </FormItem>
-                )}
-                />
-
-                <FormField
-                control={form.control}
-                name="link"
-                render={({ field }) => (
-                    <FormItem>
-                    <FormLabel>Link</FormLabel>
-                    <FormControl>
-                        <Input placeholder="https://example.com" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                    </FormItem>
-                )}
-                />
-
-                <FormField
-                control={form.control}
-                name="isAvailable"
-                render={({ field }) => (
-                    <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
-                    <div className="space-y-0.5">
-                        <FormLabel>Disponível para venda</FormLabel>
-                    </div>
-                    <FormControl>
-                        <Switch checked={field.value} onCheckedChange={field.onChange} />
-                    </FormControl>
-                    </FormItem>
-                )}
-                />
-                <FormField
-                control={form.control}
-                name="imageUrl"
-                render={({ field }) => (
-                    <FormItem className="md:col-span-2">
-                    <FormLabel>Imagem do Produto</FormLabel>
-                    <FormControl>
-                        <ImageUploadPreview
-                        className="h-auto"
-                        value={field.value || ""}
-                        onChange={field.onChange}
-                        />
-                    </FormControl>
-                    <FormMessage />
-                    </FormItem>
-                )}
-                />
-            </div>
-
-            <div className="flex justify-end gap-4">
-                <Button type="button" variant="outline" onClick={() => navigate({ to: "/products/user" })}>
+            <div className="flex items-center justify-between mb-8 ">
+                <h1 className="text-2xl font-bold">Adicionar Novo Produto</h1>
+                <Button variant="ghost" onClick={() => navigate({ to: "/products/user" })}>
                 Cancelar
                 </Button>
-                <Button type="submit">Salvar Produto</Button>
             </div>
-            </form>
-        </Form>
+
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 ">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <FormField
+                    control={form.control}
+                    name="title"
+                    render={({ field }) => (
+                        <FormItem className="md:col-span-2">
+                        <FormLabel>Título</FormLabel>
+                        <FormControl>
+                            <Input placeholder="Nome do produto" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                        </FormItem>
+                    )}
+                    />
+
+                    <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                        <FormItem className="md:col-span-2">
+                        <FormLabel>Descrição</FormLabel>
+                        <FormControl>
+                            <Textarea placeholder="Descreva seu produto" {...field} rows={5} />
+                        </FormControl>
+                        <FormMessage />
+                        </FormItem>
+                    )}
+                    />
+
+                    <FormField
+                    control={form.control}
+                    name="price"
+                    render={({ field }) => (
+                        <FormItem>
+                        <FormLabel>Preço</FormLabel>
+                        <FormControl>
+                            <Input type="number" placeholder="0.00" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                        </FormItem>
+                    )}
+                    />
+
+                    <FormField
+                    control={form.control}
+                    name="categoryId"
+                    render={({ field }) => (
+                        <FormItem className="space-y-2">
+                        <FormLabel>Categoria</FormLabel>
+                        <FormControl>
+                            <CategorySelect
+                                value={field.value || ""}
+                                onChange={field.onChange}
+                            />
+                        </FormControl>
+                        <FormMessage />
+                        </FormItem>
+                    )}
+                    />
+
+                    <FormField
+                    control={form.control}
+                    name="tags"
+                    render={({ field }) => (
+                        <FormItem className="space-y-2">
+                        <FormLabel>Tags</FormLabel>
+                        <FormControl>
+                            <TagsInput
+                            value={field.value || []}
+                            onChange={field.onChange}
+                            suggestions={['popular', 'novidade', 'promoção', 'esgotando']} // Suas sugestões aqui
+                            />
+                        </FormControl>
+                        <FormMessage />
+                        </FormItem>
+                    )}
+                    />
+
+                    <FormField
+                    control={form.control}
+                    name="link"
+                    render={({ field }) => (
+                        <FormItem>
+                        <FormLabel>Link</FormLabel>
+                        <FormControl>
+                            <Input placeholder="https://example.com" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                        </FormItem>
+                    )}
+                    />
+
+                    <FormField
+                    control={form.control}
+                    name="isAvailable"
+                    render={({ field }) => (
+                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                        <div className="space-y-0.5">
+                            <FormLabel>Disponível para venda</FormLabel>
+                        </div>
+                        <FormControl>
+                            <Switch checked={field.value} onCheckedChange={field.onChange} />
+                        </FormControl>
+                        </FormItem>
+                    )}
+                    />
+                    <FormField
+                    control={form.control}
+                    name="imageUrl"
+                    render={({ field }) => (
+                        <FormItem className="md:col-span-2">
+                        <FormLabel>Imagem do Produto</FormLabel>
+                        <FormControl>
+                            <ImageUploadPreview
+                            className="h-auto"
+                            value={field.value || ""}
+                            onChange={field.onChange}
+                            />
+                        </FormControl>
+                        <FormMessage />
+                        </FormItem>
+                    )}
+                    />
+                </div>
+
+                <div className="flex justify-end gap-4">
+                    <Button type="button" variant="outline" onClick={() => navigate({ to: "/products/user" })}>
+                    Cancelar
+                    </Button>
+                    <Button type="submit">Salvar Produto</Button>
+                </div>
+                </form>
+            </Form>
         </div>
     );
 }

@@ -9,7 +9,7 @@ export function ProductUserPage () {
     }
 
     return(
-        <Container className="h-auto flex flex-col justify-center items-center">
+        <Container className="h-auto flex flex-col justify-center items-center px-2">
             <UserProductsList userId={user.id} />
         </Container>
     );

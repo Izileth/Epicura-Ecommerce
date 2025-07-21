@@ -57,44 +57,44 @@ export function CategoryProductsPage() {
 
     return (
         <div className="container py-8 px-2 md:px-6">
-        <div className="flex items-center justify-between mb-8">
-            <div>
-            <Button 
-                variant="ghost" 
-                size="sm" 
-                onClick={() => navigate({ to: '/' })}
-                className="mb-2"
-            >
-                <ArrowLeft className=" h-4 w-4" />
-                Todas categorias
-            </Button>
-            <h1 className="text-2xl font-bold">{currentCategory.name}</h1>
-            {currentCategory.description && (
-                <p className="text-muted-foreground mt-1">{currentCategory.description}</p>
-            )}
+            <div className="flex items-center justify-between mb-8">
+                <div>
+                <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    onClick={() => navigate({ to: '/' })}
+                    className="mb-2"
+                >
+                    <ArrowLeft className=" h-4 w-4" />
+                    Todas categorias
+                </Button>
+                <h1 className="text-2xl font-bold">{currentCategory.name}</h1>
+                {currentCategory.description && (
+                    <p className="text-muted-foreground mt-1">{currentCategory.description}</p>
+                )}
+                </div>
+                <div className="text-sm text-muted-foreground">
+                {currentCategory.productCount} {currentCategory.productCount === 1 ? 'produto' : 'produtos'}
+                </div>
             </div>
-            <div className="text-sm text-muted-foreground">
-            {currentCategory.productCount} {currentCategory.productCount === 1 ? 'produto' : 'produtos'}
-            </div>
-        </div>
 
-        {currentCategory.products?.length ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {currentCategory.products.map((product) => (
-                <ProductCard 
-                    key={product.id} 
-                    product={product} 
-                />
-            ))}
-            </div>
-        ) : (
-            <div className="text-center py-12">
-            <p className="text-muted-foreground mb-4">Nenhum produto encontrado nesta categoria</p>
-            <Button variant="outline" onClick={() => navigate({ to: '/products/create' })}>
-                Criar novo produto
-            </Button>
-            </div>
-        )}
+            {currentCategory.products?.length ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {currentCategory.products.map((product) => (
+                    <ProductCard 
+                        key={product.id} 
+                        product={product} 
+                    />
+                ))}
+                </div>
+            ) : (
+                <div className="text-center py-12">
+                <p className="text-muted-foreground mb-4">Nenhum produto encontrado nesta categoria</p>
+                <Button variant="outline" onClick={() => navigate({ to: '/products/create' })}>
+                    Criar novo produto
+                </Button>
+                </div>
+            )}
         </div>
     );
 }

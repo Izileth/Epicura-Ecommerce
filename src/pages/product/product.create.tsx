@@ -4,7 +4,7 @@ export function ProductCreatePage () {
 
 
     return(
-        <Container className="h-auto flex flex-col justify-center items-center">
+        <Container className="h-auto flex flex-col justify-center items-center px-6">
             <CreateProductPage/>
  
         </Container>

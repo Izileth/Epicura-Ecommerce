@@ -11,14 +11,14 @@ const promos = [
     },
     {
         id: 2,
-        text: "Oferta relâmpago! 10% de desconto em veículos à vista",
-        link: "/vehicles",
+        text: "Oferta relâmpago! Desconto em Todos os Pratos a partir de R$ 100",
+        link: "/products",
         cta: "Aproveite",
     },
     {
         id: 3,
-        text: "Garantia estendida de 2 anos em todos os seminovos",
-        link: "/destacts",
+        text: "Confira os Maiores destaques da Semana!",
+        link: "/contact",
         cta: "Confira",
     },
 ]
