@@ -3,6 +3,7 @@ import { useCategories } from '@/hooks/useCategory';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useNavigate } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
+import { AlertTriangle } from 'lucide-react';
 
 interface Category {
   id: string;
@@ -51,9 +52,10 @@ export const CategoryGrid = ({
 
   if (error) {
     return (
-      <div className={`text-center py-12 ${className}`}>
-        <p className="text-muted-foreground mb-4">Erro ao carregar categorias</p>
-        <Button variant="outline" onClick={() => window.location.reload()}>
+      <div className={`text-center p-24  ${className}`}>
+        <AlertTriangle className="mx-auto mb-4 h-8 w-8 text-muted-foreground" />
+        <p className="text-muted-foreground rounded-none text-xl mb-4">Erro ao carregar categorias</p>
+        <Button variant="default"  className='rounded-[0.4rem] mt-2 bg-transparent border border-zinc-600 text-zinc-600 hover:bg-zinc-600 hover:text-white' onClick={() => window.location.reload()}>
           Tentar novamente
         </Button>
       </div>

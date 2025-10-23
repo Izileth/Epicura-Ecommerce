@@ -270,7 +270,7 @@ function Bar() {
 
         {/* Mobile Sidebar Menu */}
         <div
-            className={`fixed top-0 left-0 h-full w-80 sm:w-full bg-white z-50 transform transition-transform duration-300 ease-out border-r border-gray-100 ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"}`}
+            className={`fixed top-0 left-0 h-full w-full sm:w-full bg-white z-50 transform transition-transform duration-300 ease-out border-r border-gray-100 ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"}`}
         >
             <div className="flex justify-between items-center p-6 border-b border-gray-100">
             <a href="/" className="text-lg font-light text-black tracking-wide">
