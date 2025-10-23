@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useCart } from '@/hooks/useCart'; // Importar o hook do carrinho
 import { CartSidebar } from '@/components/common/cart/cartBar';
+import { PWAInstallButton } from '@/components/common/PWAInstallButton';
 import { Menu, X, ShoppingBag, User, ChevronDown, LogOut, Settings, Package, Home, Info, Utensils } from "lucide-react"
 
 function Bar() {
@@ -209,7 +210,11 @@ function Bar() {
                         )}
                     </button>
                     </div>
+                    <div className="hidden lg:block">
+                        <PWAInstallButton />
+                    </div>
                 </>
+                
                 ) : (
                 <>
                     <a
@@ -230,6 +235,7 @@ function Bar() {
 
             {/* Mobile Controls */}
             <div className="flex lg:hidden items-center gap-4">
+                <PWAInstallButton />
                 {/* Cart Button Mobile */}
                 <div className="relative">
                 <button
@@ -244,6 +250,7 @@ function Bar() {
                     )}
                 </button>
                 </div>
+                    
 
                 {/* Mobile Menu Button */}
                 <button
@@ -412,6 +419,7 @@ function Bar() {
             isOpen={isCartOpen} 
             onClose={closeCart} 
         />
+        
         </>
     )
 }
