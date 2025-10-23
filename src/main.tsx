@@ -11,7 +11,6 @@ import {
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 
 import './styles.css'
-import reportWebVitals from './reportWebVitals.ts'
 
 import useAuthStore from './store/auth.ts'
 
